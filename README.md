@@ -1,12 +1,67 @@
-# React + Vite
+# Git 작업 방식 & 코드 리뷰 가이드
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+본 문서는 프로젝트 초기 단계에서  
+**작업 → 커밋 → 푸시 → 코드 리뷰 → 병합** 과정에 대한 협업 규칙을 정리한 문서입니다.
 
-Currently, two official plugins are available:
+> 프로젝트 개요, 기술 스택, 기능 설명 등은  
+> **추후 프로젝트 진행 상황에 맞춰 보완 및 수정할 예정입니다.**
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## 📌 브랜치 전략
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- 본 프로젝트는 **main 브랜치를 트렁크 브랜치**로 사용합니다.
+- main 브랜치에서 **직접 작업은 하지 않습니다.**
+- 모든 작업은 **개인이 생성한 브랜치**에서 진행합니다.
+- 작업 완료 후 **PR → 코드 리뷰 → merge** 방식으로 진행합니다.
+- merge가 완료된 개인 브랜치는 **삭제합니다.**
+
+---
+
+## 🔁 기본 작업 흐름
+
+### 1️⃣ 작업 시작 전
+
+```bash
+git checkout main
+git pull origin main
+git checkout -b 작업-이름
+```
+
+### 2️⃣ 기능 개발 & 커밋
+
+- 기능 개발은 개인 브랜치에서 진행합니다.
+- 커밋 메시지는 팀에서 정한 컨벤션을 따릅니다.
+
+```bash
+git add .
+git commit -m "[type] - 작업 내용 요약"
+```
+
+예시
+```bash
+git commit -m "[feat] - 상품 목록 UI 구현"
+```
+
+### 3️⃣ 푸시 & PR 생성
+
+```bash
+git push origin 작업-이름
+```
+
+- GitHub에서 main 브랜치로 PR을 생성합니다.
+- PR에는 작업 내용이 명확히 드러나도록 작성합니다.
+
+## 코드 리뷰 규칙
+- PR은 반드시 **리뷰 후에만 병합**합니다.
+- 리뷰어는 팀 규칙에 따라 지정합니다.
+- 리뷰 요청 시 PR에서 **리뷰어를 태그**하여 알림을 공유합니다.
+- 리뷰 완료 및 반영 후 병합을 진행합니다.
+
+## 주의 사항
+- main 브랜치에 직접 커밋하거나 push 하지 않습니다.
+- 리뷰 없이 merge 하지 않습니다.
+
+## 문서 안내
+- 본 README는 **프로젝트 초기 협업 규칙 정리를 위한 문서**이며,
+- 프로젝트 진행 상황에 따라 **추가 및 수정될 수 있습니다.**
