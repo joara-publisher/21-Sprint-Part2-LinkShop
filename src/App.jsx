@@ -8,8 +8,8 @@ function Main() {
     <BrowserRouter>
       <Routes>
         <Route element={<Layout />}>
-          <Route index element={<List />} />
-          <Route path="/list" element={<Navigate to="/" replace />} />
+          <Route index element={<Navigate to="/list" replace />}  />
+          <Route path="/list" element={<List />} />
         </Route>
       </Routes>
     </BrowserRouter>
