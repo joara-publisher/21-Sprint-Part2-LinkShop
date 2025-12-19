@@ -1,7 +1,19 @@
-function App() {
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import Layout from './Layout';
+import List from './pages/List';
+
+function Main() {
+  
   return (
-    <div>LinkShop Project</div>
-  )
+    <BrowserRouter>
+      <Routes>
+        <Route element={<Layout />}>
+          <Route index element={<List />} />
+          <Route path="/list" element={<Navigate to="/" replace />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default Main;
