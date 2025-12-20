@@ -12,9 +12,11 @@ function Header () {
           <img src="" alt="링크샵 로고" />
         </Link>
         {location.pathname === '/list' ? 
-          <Button onClick={() => navigate('/linkpost')}>생성하기</Button> 
+          <>
+            <Button onClick={() => navigate('/linkpost')} flexLayoutType="inline-flex">생성하기</Button> 
+          </>
           : 
-          <Button onClick={() => navigate('/list')}>돌아가기</Button>
+          <Button onClick={() => navigate('/list')} flexLayoutType="inline-flex">돌아가기</Button>
         }
       </div>
     </header>
