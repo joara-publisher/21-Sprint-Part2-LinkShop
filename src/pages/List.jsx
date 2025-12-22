@@ -1,6 +1,7 @@
 import { useState } from "react";
 import SearchInput from "../components/SearchInput";
 import FilterButton from "../components/FilterButton";
+import LinkCardList from "../components/LinkCardList";
 import Modal from "../components/Modal";
 
 function List () {
@@ -34,6 +35,7 @@ function List () {
           <li className={orderValue === 'productsCount' ? 'active' : ''} onClick={() => handleFilterChange('productsCount')}>등록된 상품순</li>
         </ul>
       </Modal>
+      <LinkCardList keyword={keyword} orderBy={orderValue}/>
     </>
   )
 }

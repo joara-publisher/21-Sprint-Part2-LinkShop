@@ -1,3 +1,4 @@
+
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import Layout from './Layout';
 import List from './pages/List';
@@ -17,5 +18,6 @@ function Main() {
     </BrowserRouter>
   );
 }
+
 
 export default Main;
