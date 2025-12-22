@@ -1,7 +1,7 @@
 
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import Layout from './Layout';
-import List from './pages/List';
+import ShopList from './pages/ShopList';
 import GlobalStyle from './styles/GlobalStyle';
 
 function Main() {
@@ -12,7 +12,7 @@ function Main() {
       <Routes>
         <Route element={<Layout />}>
           <Route index element={<Navigate to="/list" replace />}  />
-          <Route path="/list" element={<List />} />
+          <Route path="/list" element={<ShopList />} />
         </Route>
       </Routes>
     </BrowserRouter>
