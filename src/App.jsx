@@ -1,7 +1,15 @@
-function App() {
+import { BrowserRouter, Navigate, Routes, Route } from "react-router-dom";
+import CreateShop from "./pages/CreateShop";
+
+function Main() {
   return (
-    <div>LinkShop Project</div>
+    <BrowserRouter>
+      <Routes>
+        <Route path='/listpost' element={<CreateShop />} />
+        <Route path="*" element={<Navigate to="/listpost" replace />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 
-export default App
+export default Main;
