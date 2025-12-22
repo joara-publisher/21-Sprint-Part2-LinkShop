@@ -1,7 +1,10 @@
 import useShopList from "../hooks/useShopList"
 import { ShopGrid,ShopCard ,ShopItem,ProductItem,ShopText} from "../styles/LinkCardList.styles";
-const LinkCardList=({keyword,orderBy})=>{
-  const list=useShopList({keyword,orderBy});
+const LinkCardList=({searchText,sortBy})=>{
+  const list=useShopList({
+    keyword: searchText,
+    orderBy: sortBy,
+  });
   console.log(list);
   return(
     <ShopGrid >
