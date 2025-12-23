@@ -10,6 +10,7 @@ import {
   ShopText,
 } from "../styles/LinkCardList.styles";
 
+
 const LinkCardList = ({ searchText, sortBy }) => {
   const { shopList, nextCursor, fetchProducts } = useShopList({
     keyword: searchText,
