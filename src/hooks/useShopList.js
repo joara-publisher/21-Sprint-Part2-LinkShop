@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { getProducts } from "../utils/product.api";
 
-const useShopList=({keyword,orderBy}={})=>{
-    const [products, setProducts] = useState([]);
+const useShopList = ({ keyword, orderBy } = {}) => {
+  const [products, setProducts] = useState([]);
 
-    useEffect(() => {
+  useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await getProducts({keyword,orderBy});
+        const res = await getProducts({ keyword, orderBy });
         setProducts(res.data.list);
       } catch (error) {
         console.log("상품 목록 조회 에러:", error);
@@ -15,7 +15,7 @@ const useShopList=({keyword,orderBy}={})=>{
     };
 
     fetchProducts();
-  }, [keyword,orderBy]);
+  }, [keyword, orderBy]);
   return products;
 };
 

@@ -1,12 +1,18 @@
 import useShopList from "../hooks/useShopList"
-import { ShopGrid,ShopCard ,ShopItem,ProductItem,ShopText} from "../styles/LinkCardList.styles";
+import { ShopGrid,ShopCard ,ShopItem,ProductItem,ShopText,EmptyResult,EmptyResultText} from "../styles/LinkCardList.styles";
+import SearchNull from "../../public/img/img_search_null.png"
 const LinkCardList=({searchText,sortBy})=>{
   const list=useShopList({
     keyword: searchText,
     orderBy: sortBy,
   });
-  console.log(list);
+  const hasKeyword = searchText.trim().length > 0;
   return(
+    hasKeyword&&list.length==0?
+    <EmptyResult>
+      <img src={SearchNull} alt="검색 결과 없음" width="375px" height="182px" />
+      <EmptyResultText>검색 결과가 없어요 <br/>지금 프로필을 만들고 내 상품을 소개해보세요</EmptyResultText>
+    </EmptyResult>:
     <ShopGrid >
         {list&&list.map((item)=>{
           return(
