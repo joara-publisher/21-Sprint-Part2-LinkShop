@@ -8,7 +8,7 @@ import {
   EmptyResult,
   EmptyResultText,
 } from "../styles/LinkCardList.styles";
-import SearchNull from "../../public/img/img_search_null.png";
+import SearchNull from "../assets/img/img_search_null.png";
 const LinkCardList = ({ searchText, sortBy }) => {
   const list = useShopList({
     keyword: searchText,
