@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import useShopList from "../hooks/useShopList";
 import useInfiniteScroll from "../hooks/useInfiniteScroll";
+
 import {
   ShopGrid,
   ShopCard,
@@ -52,6 +53,7 @@ const LinkCardList = ({ searchText, sortBy }) => {
             </ShopCard>
           );
         })}
+
       {nextCursor !== null && <div ref={loadMoreRef} />}
     </ShopGrid>
   );
