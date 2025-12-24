@@ -1,7 +1,6 @@
 import { useEffect, useRef } from "react";
 import useShopList from "../hooks/useShopList";
 import useInfiniteScroll from "../hooks/useInfiniteScroll";
-
 import {
   ShopGrid,
   ShopCard,
@@ -21,21 +20,25 @@ import {
 } from "../styles/LinkCardList.styles";
 import NotFound from "../assets/img/not_found.png";
 import FullLikes from "../assets/img/full_likes.png";
+
 const LinkCardList = ({ searchText, sortBy }) => {
   const { shopList, nextCursor, fetchProducts } = useShopList({
     keyword: searchText,
     orderBy: sortBy,
   });
 
-  const loadMoreRef = useRef();
-  const isIntersecting = useInfiniteScroll(loadMoreRef);
+  const loadMoreRef = useRef(null);
+  const nextCursorRef = useRef(nextCursor);
 
   useEffect(() => {
-    if (!isIntersecting) return;
-    if (nextCursor === null) return;
+    nextCursorRef.current = nextCursor;
+  }, [nextCursor]);
 
-    fetchProducts();
-  }, [isIntersecting, nextCursor]);
+  useInfiniteScroll(loadMoreRef, () => {
+    if (nextCursorRef.current !== null) {
+      fetchProducts(nextCursorRef.current);
+    }
+  });
 
   const hasKeyword = searchText.trim().length > 0;
   if (hasKeyword && shopList.length == 0) {
