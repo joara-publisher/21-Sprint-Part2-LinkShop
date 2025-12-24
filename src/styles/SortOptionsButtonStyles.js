@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import filterIcon from "../assets/icon_sort_button.svg";
+import filterIcon from "../assets/img/icon_arrow_down.svg";
 
 export const SortButton = styled.button`
   position: relative;
