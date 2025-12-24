@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { media } from "./media";
-import closeButtonIcon from "../assets/img/icon_modal_close_button.svg";
-import SortSelectedIcon from "../assets/img/icon_modal_sort_selected.svg";
+import CloseButtonIcon from "../assets/img/icon_close.svg";
+import SortSelectedIcon from "../assets/img/icon_check.svg";
 
 export const ModalOverlay = styled.div`
   display: flex;
@@ -69,7 +69,7 @@ export const SheetCloseButton = styled.button`
   right: 24px;
   width: 23px;
   height: 23px;
-  background-image: url("${closeButtonIcon}");
+  background-image: url("${CloseButtonIcon}");
   background-repeat: no-repeat;
   background-size: 18px 18px;
   background-position: center;
