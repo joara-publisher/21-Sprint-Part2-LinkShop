@@ -8,12 +8,10 @@ function ShopList() {
   const [searchText, setSearchText] = useState("");
   const [sortBy, setSortBy] = useState(SORTING_OPTIONS[0].value);
 
-  // 검색창에 입력 시
   const handleSearchTextChange = (e) => {
     setSearchText(e.target.value);
   };
 
-  // 필터 선택 시
   const handleSortByChange = (sortBy) => {
     setSortBy(sortBy);
   };

@@ -86,3 +86,4 @@ export const EmptyResultText = styled.div`
   line-height: 100%;
   letter-spacing: 0;
 `;
+
