@@ -4,6 +4,7 @@ import {
   SORTING_OPTIONS,
 } from "../constants/sortingOptions";
 import Modal from "../components/Modal";
+import { SortButton } from "../styles/SortOptionsButtonStyles";
 
 function SortOptionsButton({ selectedValue, onValueChange }) {
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
@@ -23,9 +24,9 @@ function SortOptionsButton({ selectedValue, onValueChange }) {
 
   return (
     <>
-      <button onClick={toggleSortOptionsModal}>
+      <SortButton onClick={toggleSortOptionsModal}>
         {hasTouched ? SORTING_LABEL_MAP[selectedValue] : "상세필터"}
-      </button>
+      </SortButton>
       <Modal isOpen={isFilterModalOpen}>
         <h3>정렬</h3>
         <button onClick={toggleSortOptionsModal}>X</button>
