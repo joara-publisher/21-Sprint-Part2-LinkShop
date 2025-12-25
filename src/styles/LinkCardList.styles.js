@@ -1,16 +1,22 @@
 import styled from "styled-components";
-
+import { media } from "./media";
 export const ShopGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, 587px);
   grid-template-rows: repeat(3, auto);
-  gap: 8px;
+  gap: 24px;
+
+  ${media.tablet} {
+    grid-template-columns: repeat(1, 696px);
+  }
+  ${media.mobile} {
+    grid-template-columns: repeat(1, 344px);
+  }
 `;
 export const ShopCard = styled.div`
   display: flex;
   flex-direction: column;
   border-radius: 25px;
-  width: 587px;
   height: 237px;
   justify-content: center;
   background-color: rgba(250, 250, 251, 1);
@@ -66,8 +72,14 @@ export const ShopText = styled.div`
   margin-left: 18px;
 `;
 export const Likes = styled.div`
-  margin-left: 279px;
   display: flex;
+  margin-left: 279px;
+  ${media.tablet} {
+    margin-left: 388px;
+  }
+  ${media.mobile} {
+    margin-left: 36px;
+  }
 `;
 export const LikesText = styled.div`
   margin-left: 4px;
@@ -85,4 +97,8 @@ export const EmptyResultText = styled.div`
   text-align: center;
   line-height: 100%;
   letter-spacing: 0;
+`;
+export const ShopGridWrapper = styled.div`
+  display: flex;
+  justify-content: center;
 `;

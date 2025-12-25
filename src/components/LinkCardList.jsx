@@ -17,6 +17,7 @@ import {
   EmptyResult,
   EmptyResultText,
   ProductCountText,
+  ShopGridWrapper,
 } from "../styles/LinkCardList.styles";
 import NotFound from "../assets/img/not_found.png";
 import FullLikes from "../assets/img/full_likes.png";
@@ -54,41 +55,45 @@ const LinkCardList = ({ searchText, sortBy }) => {
   }
 
   return (
-    <ShopGrid>
-      {shopList &&
-        shopList.map((item) => {
-          return (
-            <ShopCard key={item.id}>
-              <ShopItem>
-                <ShopProfile>
-                  <ShopImg src={item.shop.imageUrl} />
+    <ShopGridWrapper>
+      <ShopGrid>
+        {shopList &&
+          shopList.map((item) => {
+            return (
+              <ShopCard key={item.id}>
+                <ShopItem>
+                  <ShopProfile>
+                    <ShopImg src={item.shop.imageUrl} />
 
-                  <ShopText>
-                    <ShopNameText>{item.name}</ShopNameText>
-                    <ShopIDText>@{item.userId}</ShopIDText>
-                  </ShopText>
-                </ShopProfile>
-                <Likes>
-                  <img src={FullLikes} width={21} height={19} />
-                  <LikesText>{item.likes}</LikesText>
-                </Likes>
-              </ShopItem>
-              <ProductCountText>대표상품 {item.productsCount}</ProductCountText>
-              <ProductItem>
-                {item.products.map((product, index) => {
-                  return (
-                    <div key={index}>
-                      <ProductImg src={product.imageUrl} />
-                    </div>
-                  );
-                })}
-              </ProductItem>
-            </ShopCard>
-          );
-        })}
+                    <ShopText>
+                      <ShopNameText>{item.name}</ShopNameText>
+                      <ShopIDText>@{item.userId}</ShopIDText>
+                    </ShopText>
+                  </ShopProfile>
+                  <Likes>
+                    <img src={FullLikes} width={21} height={19} />
+                    <LikesText>{item.likes}</LikesText>
+                  </Likes>
+                </ShopItem>
+                <ProductCountText>
+                  대표상품 {item.productsCount}
+                </ProductCountText>
+                <ProductItem>
+                  {item.products.map((product, index) => {
+                    return (
+                      <div key={index}>
+                        <ProductImg src={product.imageUrl} />
+                      </div>
+                    );
+                  })}
+                </ProductItem>
+              </ShopCard>
+            );
+          })}
 
-      {nextCursor !== null && <div ref={loadMoreRef} />}
-    </ShopGrid>
+        {nextCursor !== null && <div ref={loadMoreRef} />}
+      </ShopGrid>
+    </ShopGridWrapper>
   );
 };
 export default LinkCardList;
