@@ -2,10 +2,13 @@ import { useEffect, useState } from "react";
 import { getProducts } from "../utils/product.api";
 
 const useShopList = ({ keyword, orderBy } = {}) => {
+  const [isLoading, setIsLoading] = useState(false);
   const [shopList, setShopList] = useState([]);
   const [nextCursor, setNextCursor] = useState(0);
 
   const fetchProducts = async (cursor) => {
+    setIsLoading(true);
+
     try {
       const res = await getProducts({ keyword, orderBy, cursor });
 
@@ -24,6 +27,8 @@ const useShopList = ({ keyword, orderBy } = {}) => {
       setNextCursor(res.data.nextCursor);
     } catch (error) {
       console.log("상품 목록 조회 에러:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -37,7 +42,7 @@ const useShopList = ({ keyword, orderBy } = {}) => {
     resetAndFetch();
   }, [keyword, orderBy]);
 
-  return { shopList, nextCursor, fetchProducts };
+  return { isLoading, shopList, nextCursor, fetchProducts };
 };
 
 export default useShopList;
