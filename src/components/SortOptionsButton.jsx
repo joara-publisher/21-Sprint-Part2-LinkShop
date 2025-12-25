@@ -8,7 +8,7 @@ import {
   SheetCloseButton,
   SheetSortOption,
   SheetTitle,
-} from "../styles/ModalStyles";
+} from "../styles/SortSheetStyles";
 
 function SortOptionsButton({ selectedValue, onValueChange }) {
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
@@ -31,7 +31,7 @@ function SortOptionsButton({ selectedValue, onValueChange }) {
       <button onClick={toggleSortOptionsModal}>
         {hasTouched ? SORTING_LABEL_MAP[selectedValue] : "상세필터"}
       </button>
-      <Modal isOpen={isFilterModalOpen} backdrop="dim" variant="sheet">
+      <Modal isOpen={isFilterModalOpen} backdrop={true} variant="sheet">
         <SheetTitle>정렬</SheetTitle>
         <SheetCloseButton onClick={toggleSortOptionsModal}></SheetCloseButton>
         <ul>
