@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import useShopList from "../hooks/useShopList";
 import useInfiniteScroll from "../hooks/useInfiniteScroll";
+import StatusMessage from "./StatusMessage";
 import {
   ShopGrid,
   ShopCard,
@@ -14,16 +15,13 @@ import {
   ShopText,
   Likes,
   LikesText,
-  EmptyResult,
-  EmptyResultText,
   ProductCountText,
   ShopGridWrapper,
 } from "../styles/LinkCardList.styles";
-import NotFound from "../assets/img/not_found.png";
 import FullLikes from "../assets/img/full_likes.png";
 
 const LinkCardList = ({ searchText, sortBy }) => {
-  const { shopList, nextCursor, fetchProducts } = useShopList({
+  const { isLoading, shopList, nextCursor, fetchProducts } = useShopList({
     keyword: searchText,
     orderBy: sortBy,
   });
@@ -41,17 +39,13 @@ const LinkCardList = ({ searchText, sortBy }) => {
     }
   });
 
+  if (isLoading && shopList.length === 0) {
+    return <StatusMessage status="로딩중" />;
+  }
+
   const hasKeyword = searchText.trim().length > 0;
   if (hasKeyword && shopList.length == 0) {
-    return (
-      <EmptyResult>
-        <img src={NotFound} alt="검색 결과 없음" width="375px" height="182px" />
-        <EmptyResultText>
-          검색 결과가 없어요 <br />
-          지금 프로필을 만들고 내 상품을 소개해보세요
-        </EmptyResultText>
-      </EmptyResult>
-    );
+    return <StatusMessage status="검색결과없음" />;
   }
 
   return (
@@ -64,7 +58,6 @@ const LinkCardList = ({ searchText, sortBy }) => {
                 <ShopItem>
                   <ShopProfile>
                     <ShopImg src={item.shop.imageUrl} />
-
                     <ShopText>
                       <ShopNameText>{item.name}</ShopNameText>
                       <ShopIDText>@{item.userId}</ShopIDText>
@@ -90,8 +83,8 @@ const LinkCardList = ({ searchText, sortBy }) => {
               </ShopCard>
             );
           })}
-
         {nextCursor !== null && <div ref={loadMoreRef} />}
+        {isLoading && shopList.length > 0 && <StatusMessage status="로딩중" />}
       </ShopGrid>
     </ShopGridWrapper>
   );

@@ -84,6 +84,7 @@ export const Likes = styled.div`
 export const LikesText = styled.div`
   margin-left: 4px;
 `;
+
 export const EmptyResult = styled.div`
   display: flex;
   flex-direction: column;
