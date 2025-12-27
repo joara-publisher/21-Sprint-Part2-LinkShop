@@ -1,32 +1,10 @@
-import { useEffect, useRef, useState } from "react";
 import FormField from "./FormField";
 import FormFieldCard from "./FormFieldCard";
+import useImagePreview from "../hooks/useImagePreview";
 
 function InputShopInfo({ shopInputs, onChange }) {
   const { shopImage, shopName, shopUrl, userId, password } = shopInputs;
-  const [previewUrl, setPreviewUrl] = useState(null);
-  const previewRef = useRef(null);
-
-  useEffect(() => {
-    if (previewRef.current) {
-      URL.revokeObjectURL(previewRef.current);
-      previewRef.current = null;
-      }
-    
-      if (shopImage) {
-        previewRef.current = URL.createObjectURL(shopImage);
-        setPreviewUrl(previewRef.current);
-      } else {
-        setPreviewUrl(null);
-      }
-
-      return () => {
-        if (previewRef.current) {
-          URL.revokeObjectURL(previewRef.current);
-          previewRef.current = null;
-        }
-      };
-  }, [shopImage]);
+  const previewUrl = useImagePreview({ shopImage });
 
   return (
     <div>
