@@ -1,37 +1,28 @@
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef } from "react";
 
-const useInfiniteScroll = (targetRef) => {
+const useInfiniteScroll = (targetRef, onIntersect) => {
   const observerRef = useRef(null);
-  const [intersecting, setIntersecting] = useState(true);
-
-  const getObserver = useCallback(() => {
-    if (!observerRef.current) {
-      observerRef.current = new IntersectionObserver(
-        (entries) => {
-          setIntersecting(entries.some((entry) => entry.isIntersecting));
-        },
-        {
-          root: null,
-          rootMargin: "100px",
-          threshold: 0,
-        }
-      );
-    }
-    return observerRef.current;
-  }, []);
 
   useEffect(() => {
     if (!targetRef.current) return;
 
-    const observer = getObserver();
-    observer.observe(targetRef.current);
+    if (!observerRef.current) {
+      observerRef.current = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            onIntersect();
+          }
+        },
+        { rootMargin: "100px" }
+      );
+    }
+
+    observerRef.current.observe(targetRef.current);
 
     return () => {
-      observer.disconnect();
+      observerRef.current.disconnect();
     };
-  }, [targetRef, getObserver]);
-
-  return intersecting;
+  }, [targetRef, onIntersect]);
 };
 
 export default useInfiniteScroll;

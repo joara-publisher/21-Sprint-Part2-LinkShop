@@ -5,6 +5,7 @@ import ShopList from "./pages/ShopList";
 import GlobalStyle from "./styles/GlobalStyle";
 import DetailPage from "./pages/DetailPage";
 
+
 function Main() {
   return (
     <BrowserRouter>
