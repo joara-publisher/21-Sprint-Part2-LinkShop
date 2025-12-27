@@ -88,7 +88,6 @@ export const Likes = styled.div`
   display: flex;
   margin-right: 24px;
   margin-left:auto;
-
 `;
 
 export const LikesText = styled.div`
