@@ -62,10 +62,10 @@ function EditShop() {
     <form onSubmit={handleSubmit}>
       <InputProduct 
         products={productInputs} 
-        onInputChange={handleProductChange} 
+        onChange={handleProductChange} 
         onAdd={handleAddProduct}
       />
-      <InputShopInfo inputs={shopInputs} onChange={handleShopChange} />
+      <InputShopInfo shopInputs={shopInputs} onChange={handleShopChange} />
       <Button type="submit">
         수정하기
       </Button>
