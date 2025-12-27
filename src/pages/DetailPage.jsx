@@ -1,15 +1,26 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getProductDetail } from "../utils/product.api.js";
+import { useParams } from "react-router-dom";
+import DetailProductList from "../components/DetailProductList.jsx";
 
 function DetailPage() {
+  const { linkShopId } = useParams();
+  const [detailData, setDetailData] = useState();
+
   useEffect(() => {
-    const productDetail = async () => {
-      const res = await getProductDetail(982);
-      console.log(res.data);
+    if (!linkShopId) return;
+
+    const shopDetail = async () => {
+      try {
+        const response = await getProductDetail(linkShopId);
+        setDetailData(response.data);
+      } catch (error) {
+        console.error(error);
+      }
     };
 
-    productDetail();
-  }, []);
+    shopDetail();
+  }, [linkShopId]);
 
   return (
     <>
@@ -17,7 +28,12 @@ function DetailPage() {
       <section>너구리상점 영역</section>
       <section>
         <h2>대표 상품</h2>
-        <div>상품 받아와서 뿌려주기</div>
+
+        {!detailData ? (
+          <p>로딩중...</p>
+        ) : (
+          <DetailProductList products={detailData.products} />
+        )}
       </section>
     </>
   );
