@@ -3,6 +3,11 @@ import SearchInput from "../components/SearchInput";
 import SortOptionsButton from "../components/SortOptionsButton";
 import LinkCardList from "../components/LinkCardList";
 import { SORTING_OPTIONS } from "../constants/sortingOptions";
+import {
+  PageContainer,
+  SearchInputWrapper,
+  SortOptionsButtonWrapper,
+} from "../styles/ShopListPageStyles";
 
 function ShopList() {
   const [searchText, setSearchText] = useState("");
@@ -17,14 +22,18 @@ function ShopList() {
   };
 
   return (
-    <>
-      <SearchInput onChange={handleSearchTextChange} />
-      <SortOptionsButton
-        selectedValue={sortBy}
-        onValueChange={handleSortByChange}
-      />
+    <PageContainer>
+      <SearchInputWrapper>
+        <SearchInput onChange={handleSearchTextChange} />
+      </SearchInputWrapper>
+      <SortOptionsButtonWrapper>
+        <SortOptionsButton
+          selectedValue={sortBy}
+          onValueChange={handleSortByChange}
+        />
+      </SortOptionsButtonWrapper>
       <LinkCardList searchText={searchText} sortBy={sortBy} />
-    </>
+    </PageContainer>
   );
 }
 
