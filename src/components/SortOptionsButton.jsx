@@ -4,6 +4,11 @@ import {
   SORTING_OPTIONS,
 } from "../constants/sortingOptions";
 import Modal from "../components/Modal";
+import {
+  SheetCloseButton,
+  SheetSortOption,
+  SheetTitle,
+} from "../styles/SortSheetStyles";
 import { SortButton } from "../styles/SortOptionsButtonStyles";
 
 function SortOptionsButton({ selectedValue, onValueChange }) {
@@ -27,18 +32,18 @@ function SortOptionsButton({ selectedValue, onValueChange }) {
       <SortButton onClick={toggleSortOptionsModal}>
         {hasTouched ? SORTING_LABEL_MAP[selectedValue] : "상세필터"}
       </SortButton>
-      <Modal isOpen={isFilterModalOpen}>
-        <h3>정렬</h3>
-        <button onClick={toggleSortOptionsModal}>X</button>
+      <Modal isOpen={isFilterModalOpen} backdrop={true} variant="sheet">
+        <SheetTitle>정렬</SheetTitle>
+        <SheetCloseButton onClick={toggleSortOptionsModal}></SheetCloseButton>
         <ul>
           {SORTING_OPTIONS.map(({ label, value }) => (
-            <li
+            <SheetSortOption
               key={value}
               className={selectedValue === value ? "active" : ""}
               onClick={() => handleSortSelect(value)}
             >
               {label}
-            </li>
+            </SheetSortOption>
           ))}
         </ul>
       </Modal>

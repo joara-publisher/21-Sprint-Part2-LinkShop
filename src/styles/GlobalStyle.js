@@ -68,6 +68,8 @@ const GlobalStyle = createGlobalStyle`
     --brand_FB545B: #FB545B;
     --brand_888790: #888790;
     --blue: #3E45EC;
+    
+    --modal-z-index: 9999;
   }
   
   body {
