@@ -9,3 +9,4 @@ export const getProducts = async ({ keyword, orderBy, cursor } = {}) => {
     },
   });
 }; //상품 조회
+

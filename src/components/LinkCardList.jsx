@@ -18,7 +18,7 @@ import {
   ProductCountText,
 } from "../styles/LinkCardList.styles";
 import FullLikes from "../assets/img/full_likes.png";
-
+import EmptyLikes from "../assets/img/empty_likes.png";
 const LinkCardList = ({ searchText, sortBy }) => {
   const { isLoading, shopList, nextCursor, fetchProducts } = useShopList({
     keyword: searchText,
@@ -49,21 +49,24 @@ const LinkCardList = ({ searchText, sortBy }) => {
 
   return (
     <ShopGrid>
-      {shopList &&
+      {shopList &&  
         shopList.map((item) => {
           return (
             <ShopCard key={item.id}>
               <ShopItem>
                 <ShopProfile>
                   <ShopImg src={item.shop.imageUrl} />
-
                   <ShopText>
                     <ShopNameText>{item.name}</ShopNameText>
                     <ShopIDText>@{item.userId}</ShopIDText>
                   </ShopText>
                 </ShopProfile>
                 <Likes>
-                  <img src={FullLikes} width={21} height={19} />
+                  <img
+                    src={item.likes === 0 ? EmptyLikes : FullLikes}
+                    width={21}
+                    height={19}
+                  />
                   <LikesText>{item.likes}</LikesText>
                 </Likes>
               </ShopItem>
