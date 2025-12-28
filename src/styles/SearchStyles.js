@@ -7,17 +7,12 @@ export const Search = styled.input`
   background-size: 20px 20px;
   background-position: 20px center;
   padding-left: 56px;
+  margin-top:32px;
   box-sizing: border-box;
   border-radius: 49px;
   border: 1px solid rgba(221, 220, 223, 1);
   height: 55px;
   font-weight: 400;
   font-size: 18px;
-  width: 1199px;
-  ${mediaQueries.tablet} {
-    width: 696px;
-  }
-  ${mediaQueries.mobile} {
-    width: 344px;
-  }
-`;
+  width:100%;
+ `
