@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { media } from "./media";
+import { mediaQueries } from "./mediaQueries";
 
 export const Search = styled.input`
   background-image: url("src/assets/img/icon_search.svg");
@@ -14,10 +14,10 @@ export const Search = styled.input`
   font-weight: 400;
   font-size: 18px;
   width: 1199px;
-  ${media.tablet} {
+  ${mediaQueries.tablet} {
     width: 696px;
   }
-  ${media.mobile} {
+  ${mediaQueries.mobile} {
     width: 344px;
   }
 `;

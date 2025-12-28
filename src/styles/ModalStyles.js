@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { media } from "./media";
+import { mediaQueries } from "./mediaQueries";
 
 export const ModalOverlay = styled.div`
   display: flex;
@@ -14,7 +14,7 @@ export const ModalOverlay = styled.div`
       z-index: var(--modal-z-index);
   `}
 
-  ${media.mobile} {
+  ${mediaQueries.mobile} {
     align-items: ${({ $variant }) => ($variant === "modal" ? "center" : "end")};
   }
 `;
@@ -47,7 +47,7 @@ export const modalVariantStyles = {
     padding: 39px 24px 62px;
     border-radius: 24px;
     
-    ${media.mobile} {
+    ${mediaQueries.mobile} {
       border-radius: 24px 24px 0 0;
       padding-bottom: 173px;
     }

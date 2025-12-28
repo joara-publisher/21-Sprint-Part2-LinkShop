@@ -1,15 +1,15 @@
 import styled from "styled-components";
-import { media } from "./media";
+import { mediaQueries } from "./mediaQueries";
 
 export const ShopGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(2, auto);
   grid-template-rows: repeat(3, auto);
   gap: 24px;
-  ${media.tablet} {
+  ${mediaQueries.tablet} {
     grid-template-columns: repeat(1, auto);
   }
-  ${media.mobile} {
+  ${mediaQueries.mobile} {
     grid-template-columns: repeat(1, auto);
   }
 `;
@@ -48,10 +48,10 @@ export const ShopIDText = styled.div`
 `;
 
 export const ShopImg = styled.img`
- width: 60px;
+  width: 60px;
   aspect-ratio: 1 / 1;
   border-radius: 50%;
-  object-fit: cover ;
+  object-fit: cover;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -87,8 +87,7 @@ export const ShopText = styled.div`
 export const Likes = styled.div`
   display: flex;
   margin-right: 24px;
-  margin-left:auto;
-
+  margin-left: auto;
 `;
 
 export const LikesText = styled.div`
