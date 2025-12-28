@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { media } from "./media";
+import { mediaQueries } from "./mediaQueries";
 
 export const PageContainer = styled.div`
   max-width: 1200px;
@@ -7,7 +7,7 @@ export const PageContainer = styled.div`
   margin: 32px auto 65px;
   overflow: hidden;
 
-  ${media.mobile} {
+  ${mediaQueries.mobile} {
     padding: 0 16px;
     margin: 44px auto;
   }
@@ -16,11 +16,11 @@ export const PageContainer = styled.div`
 export const SearchInputWrapper = styled.div`
   margin-bottom: 40px;
 
-  ${media.tablet} {
+  ${mediaQueries.tablet} {
     margin-bottom: 28px;
   }
 
-  ${media.mobile} {
+  ${mediaQueries.mobile} {
     margin-bottom: 20px;
   }
 `;
@@ -28,11 +28,11 @@ export const SearchInputWrapper = styled.div`
 export const SortOptionsButtonWrapper = styled.div`
   margin-bottom: 32px;
 
-  ${media.tablet} {
+  ${mediaQueries.tablet} {
     margin-bottom: 28px;
   }
 
-  ${media.mobile} {
+  ${mediaQueries.mobile} {
     margin-bottom: 20px;
   }
 `;
