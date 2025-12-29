@@ -5,14 +5,10 @@ export const ModalOverlay = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-
-  ${({ $backdrop }) =>
-    $backdrop &&
-    ` position: fixed;
-      inset: 0;
-      background-color: rgba(0, 0, 0, 0.7); 
-      z-index: var(--modal-z-index);
-  `}
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: var(--modal-z-index);
 
   ${mediaQueries.mobile} {
     align-items: ${({ $variant }) => ($variant === "modal" ? "center" : "end")};
@@ -40,7 +36,13 @@ export const ModalContainer = styled.div`
 `;
 
 export const modalVariantStyles = {
-  modal: ``,
+  modal: `
+    max-width: 343px;
+    width: 100%;
+    padding: 54px 24px 24px;
+    border-radius: 30px;
+    text-align: center;
+  `,
   sheet: `
     max-width: 375px;
     width: 100%;
