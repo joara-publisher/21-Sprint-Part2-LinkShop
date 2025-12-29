@@ -2,6 +2,8 @@ import { useState } from "react";
 import InputProduct from "../components/InputProduct";
 import InputShopInfo from "../components/InputShopInfo";
 import Button from "../components/Button";
+import Modal from "../components/Modal";
+import { ConfirmTitle } from "../styles/ConfirmModalStyles";
 
 function CreateShop() {
   const [productInputs, setProductInputs] = useState([
@@ -13,13 +15,16 @@ function CreateShop() {
     shopName: "",
     shopUrl: "",
     userId: "",
-    password: ""
+    password: "",
   });
+
+  const [isCreateCompleteModalOpen, setIsCreateCompleteModalOpen] =
+    useState(false);
 
   // 상품 입력 변경 핸들러 (index 기반)
   const handleProductChange = (index, e) => {
     const { name, value, type, files } = e.target;
-    setProductInputs(prev => {
+    setProductInputs((prev) => {
       const next = [...prev];
       next[index] = {
         ...next[index],
@@ -31,7 +36,7 @@ function CreateShop() {
 
   // 새 상품 카드 추가
   const handleAddProduct = () => {
-    setProductInputs(prev => [
+    setProductInputs((prev) => [
       ...prev,
       { productImage: null, productName: "", productPrice: "" },
     ]);
@@ -40,7 +45,7 @@ function CreateShop() {
   // 쇼핑몰 입력 변경 핸들러
   const handleShopChange = (e) => {
     const { name, value, type, files } = e.target;
-    setShopInputs(prev => ({
+    setShopInputs((prev) => ({
       ...prev,
       [name]: type === "file" ? (files && files[0] ? files[0] : null) : value,
     }));
@@ -55,27 +60,41 @@ function CreateShop() {
     productInputs.forEach((p, i) => {
       formData.append(`products[${i}][productName]`, p.productName || "");
       formData.append(`products[${i}][productPrice]`, p.productPrice || "");
-      if (p.productImage) formData.append(`products[${i}][productImage]`, p.productImage);
+      if (p.productImage)
+        formData.append(`products[${i}][productImage]`, p.productImage);
     });
 
     Object.entries(shopInputs).forEach(([key, value]) => {
       if (value !== null && value !== "") formData.append(key, value);
     });
-  }
+  };
+
+  const toggleCreateCompleteModal = () => {
+    setIsCreateCompleteModalOpen((prev) => !prev);
+  };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <InputProduct 
-        products={productInputs} 
-        onChange={handleProductChange}
-        onAdd={handleAddProduct}
-      />
-      <InputShopInfo shopInputs={shopInputs} onChange={handleShopChange} />
-      <Button type="submit">
-        생성하기
-      </Button>
-    </form>
-  )
+    <>
+      <form onSubmit={handleSubmit}>
+        <InputProduct
+          products={productInputs}
+          onChange={handleProductChange}
+          onAdd={handleAddProduct}
+        />
+        <InputShopInfo shopInputs={shopInputs} onChange={handleShopChange} />
+        <Button type="submit" onClick={toggleCreateCompleteModal}>
+          생성하기
+        </Button>
+      </form>
+
+      <Modal isOpen={isCreateCompleteModalOpen} variant="modal">
+        <ConfirmTitle>등록이 완료되었습니다.</ConfirmTitle>
+        <Button onClick={toggleCreateCompleteModal} layout="full">
+          확인
+        </Button>
+      </Modal>
+    </>
+  );
 }
 
 export default CreateShop;

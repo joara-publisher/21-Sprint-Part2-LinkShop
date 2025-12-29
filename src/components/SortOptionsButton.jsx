@@ -32,7 +32,7 @@ function SortOptionsButton({ selectedValue, onValueChange }) {
       <SortButton onClick={toggleSortOptionsModal}>
         {hasTouched ? SORTING_LABEL_MAP[selectedValue] : "상세필터"}
       </SortButton>
-      <Modal isOpen={isFilterModalOpen} backdrop={true} variant="sheet">
+      <Modal isOpen={isFilterModalOpen} variant="sheet">
         <SheetTitle>정렬</SheetTitle>
         <SheetCloseButton onClick={toggleSortOptionsModal}></SheetCloseButton>
         <ul>
