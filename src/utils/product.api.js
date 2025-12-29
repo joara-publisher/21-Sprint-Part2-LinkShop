@@ -1,12 +1,15 @@
 import http from "./http";
 
 export const getProducts = async ({ keyword, orderBy, cursor } = {}) => {
-  return await http.get("", {
+  return await http.get("/linkshops", {
     params: {
       keyword,
       orderBy,
       cursor,
     },
   });
-}; //상품 조회
+};
 
+export const getProductDetail = async (linkShopId) => {
+  return await http.get(`/linkshops/${linkShopId}`);
+};
