@@ -7,7 +7,6 @@ export const Search = styled.input`
   background-size: 20px 20px;
   background-position: 20px center;
   padding-left: 56px;
-  margin-top:32px;
   box-sizing: border-box;
   border-radius: 49px;
   border: 1px solid rgba(221, 220, 223, 1);
