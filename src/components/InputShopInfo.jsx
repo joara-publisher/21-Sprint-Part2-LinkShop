@@ -3,8 +3,8 @@ import FormFieldCard from "./FormFieldCard";
 import useImagePreview from "../hooks/useImagePreview";
 
 function InputShopInfo({ shopInputs, onChange }) {
-  const { shopImage, shopName, shopUrl, userId, password } = shopInputs;
-  const previewUrl = useImagePreview({ shopImage });
+  const { imageUrl, shopUrl, userId, name, password } = shopInputs;
+  const previewUrl = useImagePreview({ imageUrl });
 
   return (
     <div>
@@ -16,7 +16,7 @@ function InputShopInfo({ shopInputs, onChange }) {
           label="쇼핑몰 대표 이미지" 
           type="file" 
           placeholder="쇼핑몰 이미지를 첨부해 주세요"
-          value={shopImage || ""}
+          value={imageUrl || ""}
           onChange={onChange} 
         />
         {previewUrl && (
@@ -29,7 +29,7 @@ function InputShopInfo({ shopInputs, onChange }) {
           label="이름" 
           type="text" 
           placeholder="쇼핑몰 이름을 입력해 주세요" 
-          value={shopName || ""}
+          value={name || ""}
           onChange={onChange} 
         />
         <FormField 

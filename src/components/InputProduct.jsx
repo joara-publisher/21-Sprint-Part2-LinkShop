@@ -8,13 +8,13 @@ function InputProduct({ products = [], onChange, onAdd }) {
 
   useEffect(() => {
     const nextUrls = products.map((p) => {
-      if (p && p.productImage) return URL.createObjectURL(p.productImage);
+      if (p && p.imageUrl) return URL.createObjectURL(p.imageUrl);
       return null;
     });
 
     // 이전에 생성한 URL들 해제
-    currentUrlsRef.current.forEach((url) => {
-      if (url) URL.revokeObjectURL(url);
+    currentUrlsRef.current.forEach((imageUrl) => {
+      if (imageUrl) URL.revokeObjectURL(imageUrl);
     });
     
     setPreviewUrls(nextUrls);
@@ -22,8 +22,8 @@ function InputProduct({ products = [], onChange, onAdd }) {
 
     // 언마운트 시 남아있는 URL들 해제
     return () => {
-      currentUrlsRef.current.forEach((url) => {
-        if (url) URL.revokeObjectURL(url);
+      currentUrlsRef.current.forEach((imageUrl) => {
+        if (imageUrl) URL.revokeObjectURL(imageUrl);
       });
       currentUrlsRef.current = [];
     };
@@ -39,7 +39,7 @@ function InputProduct({ products = [], onChange, onAdd }) {
         </button>
       </div>
 
-      {products.map((product, index) => {
+      {products.map((products, index) => {
         const fileInputId = `productImage-${index}`;
 
         return (
@@ -50,7 +50,7 @@ function InputProduct({ products = [], onChange, onAdd }) {
                 label="상품 대표 이미지"
                 type="file"
                 placeholder="상품 이미지를 첨부해 주세요"
-                value={product.productImage || ""}
+                value={products.imageUrl || ""}
                 onChange={(e) => onChange(index, e)}
               />
 
@@ -68,7 +68,7 @@ function InputProduct({ products = [], onChange, onAdd }) {
               label="상품 이름"
               type="text"
               placeholder="상품 이름을 입력해 주세요"
-              value={product.productName || ""}
+              value={products.name || ""}
               onChange={(e) => onChange(index, e)}
             />
             <FormField
@@ -76,7 +76,7 @@ function InputProduct({ products = [], onChange, onAdd }) {
               label="상품 가격"
               type="text"
               placeholder="상품 가격을 입력해 주세요"
-              value={product.productPrice || ""}
+              value={products.price || 0}
               onChange={(e) => onChange(index, e)}
             />
           </FormFieldCard>
