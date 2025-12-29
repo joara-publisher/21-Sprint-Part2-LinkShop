@@ -1,15 +1,16 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Button from "./Button";
-
+import ShopLogo from "../assets/img/shop_logo.png"
+import { HeaderContainer } from "../styles/HeaderStyles";
 function Header() {
   const location = useLocation();
   const navigate = useNavigate();
-
+  
   return (
     <header>
-      <div>
+      <HeaderContainer>
         <Link to="/list">
-          <img src="" alt="링크샵 로고" />
+          <img src={ShopLogo} alt="링크샵 로고" />
         </Link>
         {location.pathname === "/list" ? (
           <Button onClick={() => navigate("/linkpost")} layout="fit">
@@ -20,7 +21,7 @@ function Header() {
             돌아가기
           </Button>
         )}
-      </div>
+      </HeaderContainer>
     </header>
   );
 }
