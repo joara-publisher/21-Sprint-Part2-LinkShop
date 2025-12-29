@@ -16,7 +16,7 @@ function CreateShop() {
       shopUrl: "",
     },
     products: [
-      {name: "",price: 0,imageUrl: ""}
+      {name: "", price: 0, imageUrl: ""}
     ],
   });
 
