@@ -7,7 +7,7 @@ import { ConfirmTitle } from "../styles/ConfirmModalStyles";
 
 function CreateShop() {
   const [linkShopData, setLinkShopData] = useState({
-    currentPassword: "",
+    password: "",
     userId: "",
     name: "",
     shop: {
