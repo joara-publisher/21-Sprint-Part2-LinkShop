@@ -49,7 +49,7 @@ const LinkCardList = ({ searchText, sortBy }) => {
 
   return (
     <ShopGrid>
-      {shopList &&  
+      {shopList &&
         shopList.map((item) => {
           return (
             <ShopCard key={item.id}>
@@ -72,7 +72,7 @@ const LinkCardList = ({ searchText, sortBy }) => {
               </ShopItem>
               <ProductCountText>대표상품 {item.productsCount}</ProductCountText>
               <ProductItem>
-                {item.products.map((product, index) => {
+                {item.products.slice(0, 3).map((product, index) => {
                   return (
                     <div key={index}>
                       <ProductImg src={product.imageUrl} />
