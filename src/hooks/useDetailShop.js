@@ -51,10 +51,22 @@ export function useDetailShop(linkShopId) {
     }
   };
 
+  const deleteShop = async (currentPassword) => {
+    try {
+      await shopDelete(linkShopId, currentPassword);
+      alert("상점이 삭제되었습니다.");
+      navigate("/");
+    } catch (error) {
+      console.error("삭제 실패:", error);
+      alert("삭제에 실패했습니다. 비밀번호를 확인해주세요.");
+    }
+  };
+
   return {
     detailData,
     isLiked,
     likes,
     toggleLike,
+    deleteShop,
   };
 }
