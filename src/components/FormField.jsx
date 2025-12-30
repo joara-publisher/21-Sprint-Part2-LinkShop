@@ -1,14 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 
-function FormField({ id,name, label, type, placeholder, value, onChange }) {
+function FormField({ id, name, label, type, placeholder, value, onChange }) {
   const fileInputRef = useRef(null);
   const [fileName, setFileName] = useState("");
   
   useEffect(() => {
-    // 부모로부터 전달된 value가 File인 경우 파일명 표시
     if (type === "file") {
       if (value && typeof value === "object" && value.name) {
         setFileName(value.name);
+      } else {
+        setFileName("");
       }
     }
   }, [type, value]);

@@ -17,7 +17,7 @@ function CreateShop() {
       shopUrl: "",
     },
     products: [
-      {name: "", price: 0, imageUrl: ""}
+      {name: "", price: "", imageUrl: ""}
     ],
   });
 
@@ -47,7 +47,7 @@ function CreateShop() {
   const handleAddProduct = () => {
     setLinkShopData((prev) => ({
       ...prev,
-      products: [...prev.products, { name: "", price: 0, imageUrl: ""}],
+      products: [...prev.products, { name: "", price: "", imageUrl: ""}],
     }));
   };
 
