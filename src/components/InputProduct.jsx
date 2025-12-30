@@ -41,7 +41,7 @@ function InputProduct({ products = [], onChange, onAdd }) {
         </button>
       </div>
 
-      {products.map((product, index) => {
+      {products.map((products, index) => {
         const fileInputId = `productImage-${index}`;
 
         return (

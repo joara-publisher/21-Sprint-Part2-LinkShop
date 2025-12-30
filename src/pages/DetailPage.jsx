@@ -1,39 +1,38 @@
-import { useEffect, useState } from "react";
-import { getProductDetail } from "../utils/product.api.js";
 import { useParams } from "react-router-dom";
-import DetailProductList from "../components/DetailProductList.jsx";
+import DetailProductList from "../components/DetailProductList";
+import DetailShopHeader from "../components/DetailShopHeader";
+import { useDetailShop } from "../hooks/useDetailShop";
+import StatusMessage from "../components/StatusMessage";
 
 function DetailPage() {
   const { linkShopId } = useParams();
-  const [detailData, setDetailData] = useState();
+  const { detailData, isLiked, likes, toggleLike } = useDetailShop(linkShopId);
 
-  useEffect(() => {
-    if (!linkShopId) return;
+  const handleShare = () => console.log("공유");
+  const handleEdit = () => console.log("수정");
+  const handleDelete = () => console.log("삭제");
 
-    const shopDetail = async () => {
-      try {
-        const response = await getProductDetail(linkShopId);
-        setDetailData(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    shopDetail();
-  }, [linkShopId]);
+  if (!detailData) return <StatusMessage status="로딩중" />;
 
   return (
     <>
-      <header>디자인, 돌아가기</header>
-      <section>너구리상점 영역</section>
+      <header>상단 디자인, 돌아가기</header>
+
+      <DetailShopHeader
+        shopImage={detailData.shop.imageUrl}
+        shopName={detailData.name}
+        userId={detailData.userId}
+        likes={likes}
+        isLiked={isLiked}
+        onLikeClick={toggleLike}
+        onShareClick={handleShare}
+        onEditClick={handleEdit}
+        onDeleteClick={handleDelete}
+      />
+
       <section>
         <h2>대표 상품</h2>
-
-        {!detailData ? (
-          <p>로딩중...</p>
-        ) : (
-          <DetailProductList products={detailData.products} />
-        )}
+        <DetailProductList products={detailData.products} />
       </section>
     </>
   );
