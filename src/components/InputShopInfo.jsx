@@ -3,7 +3,7 @@ import FormFieldCard from "./FormFieldCard";
 import useImagePreview from "../hooks/useImagePreview";
 
 function InputShopInfo({ shopInputs = {}, onChange }) {
-  const { imageUrl, shopUrl, urlName, userId, password } = shopInputs;
+  const { imageUrl, shopUrl, userId, name, password } = shopInputs;
   const previewUrl = useImagePreview({ shopImage: imageUrl });
 
   return (
@@ -30,12 +30,12 @@ function InputShopInfo({ shopInputs = {}, onChange }) {
           </div>
         )}
         <FormField 
-          name="urlName" 
+          name="name" 
           label="이름" 
           type="text" 
           placeholder="쇼핑몰 이름을 입력해 주세요" 
-          value={urlName || ""}
-          onChange={(e) => onChange("urlName", e.target.value)} 
+          value={name || ""}
+          onChange={(e) => onChange("name", e.target.value)} 
         />
         <FormField 
           name="shopUrl" 
