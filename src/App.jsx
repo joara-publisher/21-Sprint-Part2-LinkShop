@@ -1,6 +1,6 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Layout from "./Layout";
-import CreateShop from "./pages/EditShop";
+import CreateShop from "./pages/CreateShop";
 import ShopList from "./pages/ShopList";
 import GlobalStyle from "./styles/GlobalStyle";
 import DetailPage from "./pages/DetailPage";
