@@ -2,6 +2,8 @@ import { useState } from "react";
 import InputProduct from "../components/InputProduct";
 import InputShopInfo from "../components/InputShopInfo";
 import Button from "../components/Button";
+import Modal from "../components/Modal";
+import { ConfirmTitle } from "../styles/ConfirmModalStyles";
 
 function EditShop() {
   const [productInputs, setProductInputs] = useState([
@@ -13,8 +15,11 @@ function EditShop() {
     shopName: "",
     shopUrl: "",
     userId: "",
-    password: ""
+    password: "",
   });
+
+  const [isUpdateCompleteModalOpen, setIsUpdateCompleteModalOpen] =
+    useState(false);
 
   // 상품 입력 변경 핸들러 (index 기반)
   const handleProductChange = (index, field, value) => {
@@ -22,18 +27,18 @@ function EditShop() {
     updatedInputs[index][field] = value;
     setProductInputs(updatedInputs);
   };
-  
+
   // 새 상품 카드 추가
   const handleAddProduct = () => {
-    setProductInputs(prev => [
+    setProductInputs((prev) => [
       ...prev,
       { productImage: null, productName: "", productPrice: "" },
     ]);
-  }
+  };
 
   // 쇼핑몰 입력 변경 핸들러
   const handleShopChange = (field, value) => {
-    setShopInputs(prev => ({ ...prev, [field]: value }));
+    setShopInputs((prev) => ({ ...prev, [field]: value }));
   };
 
   // 제출 핸들러
@@ -45,7 +50,8 @@ function EditShop() {
     productInputs.forEach((p, i) => {
       formData.append(`products[${i}][productName]`, p.productName || "");
       formData.append(`products[${i}][productPrice]`, p.productPrice || "");
-      if (p.productImage) formData.append(`products[${i}][productImage]`, p.productImage);
+      if (p.productImage)
+        formData.append(`products[${i}][productImage]`, p.productImage);
     });
 
     // 쇼핑몰 정보 추가
@@ -53,24 +59,37 @@ function EditShop() {
     formData.append("shopUrl", shopInputs.shopUrl || "");
     formData.append("userId", shopInputs.userId || "");
     formData.append("password", shopInputs.password || "");
-    if (shopInputs.shopImage) formData.append("shopImage", shopInputs.shopImage);
+    if (shopInputs.shopImage)
+      formData.append("shopImage", shopInputs.shopImage);
 
     // 여기에 formData를 서버로 전송하는 로직 추가
   };
 
+  const toggleUpdateCompleteModal = () => {
+    setIsUpdateCompleteModalOpen((prev) => !prev);
+  };
+
   return (
-    <form onSubmit={handleSubmit}>
-      <InputProduct 
-        products={productInputs} 
-        onChange={handleProductChange} 
-        onAdd={handleAddProduct}
-      />
-      <InputShopInfo shopInputs={shopInputs} onChange={handleShopChange} />
-      <Button type="submit">
-        수정하기
-      </Button>
-    </form>
-  )
+    <>
+      <form onSubmit={handleSubmit}>
+        <InputProduct
+          products={productInputs}
+          onChange={handleProductChange}
+          onAdd={handleAddProduct}
+        />
+        <InputShopInfo shopInputs={shopInputs} onChange={handleShopChange} />
+        <Button type="submit" onClick={toggleUpdateCompleteModal}>
+          수정하기
+        </Button>
+      </form>
+      <Modal isOpen={isUpdateCompleteModalOpen} variant="modal">
+        <ConfirmTitle>수정이 완료되었습니다.</ConfirmTitle>
+        <Button onClick={toggleUpdateCompleteModal} layout="full">
+          확인
+        </Button>
+      </Modal>
+    </>
+  );
 }
 
 export default EditShop;
