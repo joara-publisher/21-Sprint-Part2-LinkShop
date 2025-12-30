@@ -6,72 +6,68 @@ import Modal from "../components/Modal";
 import { ConfirmTitle } from "../styles/ConfirmModalStyles";
 
 function CreateShop() {
-  const [productInputs, setProductInputs] = useState([
-    { productImage: null, productName: "", productPrice: "" },
-  ]);
-
-  const [shopInputs, setShopInputs] = useState({
-    shopImage: null,
-    shopName: "",
-    shopUrl: "",
-    userId: "",
+  const [linkShopData, setLinkShopData] = useState({
     password: "",
+    userId: "",
+    name: "",
+    shop: {
+      imageUrl: "",
+      urlName: "",
+      shopUrl: "",
+    },
+    products: [
+      {name: "", price: 0, imageUrl: ""}
+    ],
   });
+
+  const productInputs = linkShopData.products;
+  const shopInputs = linkShopData.shop;
 
   const [isCreateCompleteModalOpen, setIsCreateCompleteModalOpen] =
     useState(false);
-
-  // 상품 입력 변경 핸들러 (index 기반)
-  const handleProductChange = (index, e) => {
-    const { name, value, type, files } = e.target;
-    setProductInputs((prev) => {
-      const next = [...prev];
-      next[index] = {
-        ...next[index],
-        [name]: type === "file" ? (files && files[0] ? files[0] : null) : value,
-      };
-      return next;
-    });
-  };
-
-  // 새 상품 카드 추가
-  const handleAddProduct = () => {
-    setProductInputs((prev) => [
-      ...prev,
-      { productImage: null, productName: "", productPrice: "" },
-    ]);
-  };
-
-  // 쇼핑몰 입력 변경 핸들러
-  const handleShopChange = (e) => {
-    const { name, value, type, files } = e.target;
-    setShopInputs((prev) => ({
-      ...prev,
-      [name]: type === "file" ? (files && files[0] ? files[0] : null) : value,
+  
+    const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  const handleShopChange = (field, value) => {
+    setLinkShopData((prev) => ({
+      prev,
+      shop: { ...prev.shop, [field]: value },
     }));
   };
 
-  // 제출 핸들러
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-
-    // products를 배열 형태로 전송 (서버 기대 형식에 맞춰 변경 가능)
-    productInputs.forEach((p, i) => {
-      formData.append(`products[${i}][productName]`, p.productName || "");
-      formData.append(`products[${i}][productPrice]`, p.productPrice || "");
-      if (p.productImage)
-        formData.append(`products[${i}][productImage]`, p.productImage);
+  const handleProductChange = (index, field, value) => {
+    setLinkShopData((prev) => {
+      const products = prev.products.map((p, i) =>
+        i === index ? { ...p, [field]: value} : p
+      );
+      return { ...prev, products};
     });
+  };
 
-    Object.entries(shopInputs).forEach(([key, value]) => {
-      if (value !== null && value !== "") formData.append(key, value);
-    });
+  const handleAddProduct = () => {
+    setLinkShopData((prev) => ({
+      ...prev,
+      products: [...prev.products, { name: "", price: 0, imageUrl: ""}],
+    }));
   };
 
   const toggleCreateCompleteModal = () => {
     setIsCreateCompleteModalOpen((prev) => !prev);
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDafault();
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+    try {
+      //서버에 생성된 데이터 보내기
+    } catch (error) {
+      
+      alert("생성에 실패했습니다. 다시 시도해주세요.")
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
 
   return (
     <>
@@ -82,8 +78,13 @@ function CreateShop() {
           onAdd={handleAddProduct}
         />
         <InputShopInfo shopInputs={shopInputs} onChange={handleShopChange} />
-        <Button type="submit" onClick={toggleCreateCompleteModal}>
-          생성하기
+        <Button 
+          layout="full"
+          type="submit"
+          disabled={isSubmitting}
+          onClick={toggleCreateCompleteModal}
+        >
+          {isSubmitting ? "생성중..." : "생성하기"}
         </Button>
       </form>
 
