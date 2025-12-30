@@ -19,6 +19,8 @@ import {
 } from "../styles/LinkCardList.styles";
 import FullLikes from "../assets/img/full_likes.png";
 import EmptyLikes from "../assets/img/empty_likes.png";
+import { useNavigate } from "react-router-dom";
+
 const LinkCardList = ({ searchText, sortBy }) => {
   const { isLoading, shopList, nextCursor, fetchProducts } = useShopList({
     keyword: searchText,
@@ -27,7 +29,7 @@ const LinkCardList = ({ searchText, sortBy }) => {
 
   const loadMoreRef = useRef(null);
   const nextCursorRef = useRef(nextCursor);
-
+  const navigate = useNavigate();
   useEffect(() => {
     nextCursorRef.current = nextCursor;
   }, [nextCursor]);
@@ -46,41 +48,44 @@ const LinkCardList = ({ searchText, sortBy }) => {
   if (hasKeyword && shopList.length == 0) {
     return <StatusMessage status="검색결과없음" />;
   }
-
   return (
     <ShopGrid>
       {shopList &&
         shopList.map((item) => {
           return (
-            <ShopCard key={item.id}>
-              <ShopItem>
-                <ShopProfile>
-                  <ShopImg src={item.shop.imageUrl} />
-                  <ShopText>
-                    <ShopNameText>{item.name}</ShopNameText>
-                    <ShopIDText>@{item.userId}</ShopIDText>
-                  </ShopText>
-                </ShopProfile>
-                <Likes>
-                  <img
-                    src={item.likes === 0 ? EmptyLikes : FullLikes}
-                    width={21}
-                    height={19}
-                  />
-                  <LikesText>{item.likes}</LikesText>
-                </Likes>
-              </ShopItem>
-              <ProductCountText>대표상품 {item.productsCount}</ProductCountText>
-              <ProductItem>
-                {item.products.slice(0, 3).map((product, index) => {
-                  return (
-                    <div key={index}>
-                      <ProductImg src={product.imageUrl} />
-                    </div>
-                  );
-                })}
-              </ProductItem>
-            </ShopCard>
+            <div key={item.id} onClick={() => navigate(`/link/${item.id}`)}>
+              <ShopCard>
+                <ShopItem>
+                  <ShopProfile>
+                    <ShopImg src={item.shop.imageUrl} />
+                    <ShopText>
+                      <ShopNameText>{item.name}</ShopNameText>
+                      <ShopIDText>@{item.userId}</ShopIDText>
+                    </ShopText>
+                  </ShopProfile>
+                  <Likes>
+                    <img
+                      src={item.likes === 0 ? EmptyLikes : FullLikes}
+                      width={21}
+                      height={19}
+                    />
+                    <LikesText>{item.likes}</LikesText>
+                  </Likes>
+                </ShopItem>
+                <ProductCountText>
+                  대표상품 {item.productsCount}
+                </ProductCountText>
+                <ProductItem>
+                  {item.products.slice(0, 3).map((product, index) => {
+                    return (
+                      <div key={index}>
+                        <ProductImg src={product.imageUrl} />
+                      </div>
+                    );
+                  })}
+                </ProductItem>
+              </ShopCard>
+            </div>
           );
         })}
       {nextCursor !== null && <div ref={loadMoreRef} />}
