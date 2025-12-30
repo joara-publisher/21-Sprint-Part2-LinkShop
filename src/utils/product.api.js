@@ -13,3 +13,7 @@ export const getProducts = async ({ keyword, orderBy, cursor } = {}) => {
 export const getProductDetail = async (linkShopId) => {
   return await http.get(`/linkshops/${linkShopId}`);
 };
+
+export const sendLinkShopProductData = async (linkShopData) => {
+  return await http.post('/linkshops', linkShopData);
+}
