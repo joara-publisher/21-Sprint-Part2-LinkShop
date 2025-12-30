@@ -13,5 +13,5 @@ export const Search = styled.input`
   height: 55px;
   font-weight: 400;
   font-size: 18px;
-  width:100%;
- `
+  width: 100%;
+`;
