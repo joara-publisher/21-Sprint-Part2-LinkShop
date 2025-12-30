@@ -4,6 +4,7 @@ import InputShopInfo from "../components/InputShopInfo";
 import Button from "../components/Button";
 import Modal from "../components/Modal";
 import { ConfirmTitle } from "../styles/ConfirmModalStyles";
+import { sendLinkShopProductData } from "../utils/product.api";
 
 function CreateShop() {
   const [linkShopData, setLinkShopData] = useState({
@@ -25,22 +26,21 @@ function CreateShop() {
 
   const [isCreateCompleteModalOpen, setIsCreateCompleteModalOpen] =
     useState(false);
-  
-    const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   
   const handleShopChange = (field, value) => {
     setLinkShopData((prev) => ({
-      prev,
+      ...prev,
       shop: { ...prev.shop, [field]: value },
     }));
   };
 
   const handleProductChange = (index, field, value) => {
     setLinkShopData((prev) => {
-      const products = prev.products.map((p, i) =>
+      const products = prev.products.map((p, i) => (
         i === index ? { ...p, [field]: value} : p
-      );
-      return { ...prev, products};
+      ));
+      return { ...prev, products };
     });
   };
 
@@ -56,22 +56,25 @@ function CreateShop() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDafault();
+    e.preventDefault();
     if (isSubmitting) return;
     setIsSubmitting(true);
+
     try {
-      //서버에 생성된 데이터 보내기
+      const response = await sendLinkShopProductData(linkShopData);
+      setLinkShopData(response.data);
+      setIsCreateCompleteModalOpen(true);
     } catch (error) {
-      
-      alert("생성에 실패했습니다. 다시 시도해주세요.")
+      console.error("링크샵 생성 실패:", error);
+      alert("생성에 실패했습니다. 다시 시도해주세요.");
     } finally {
       setIsSubmitting(false);
     }
-  }
+  };
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} aria-busy={isSubmitting}>
         <InputProduct
           products={productInputs}
           onChange={handleProductChange}
@@ -82,7 +85,6 @@ function CreateShop() {
           layout="full"
           type="submit"
           disabled={isSubmitting}
-          onClick={toggleCreateCompleteModal}
         >
           {isSubmitting ? "생성중..." : "생성하기"}
         </Button>
