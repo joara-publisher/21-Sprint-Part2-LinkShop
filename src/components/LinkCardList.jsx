@@ -19,14 +19,19 @@ import {
 } from "../styles/LinkCardList.styles";
 import FullLikes from "../assets/img/full_likes.png";
 import EmptyLikes from "../assets/img/empty_likes.png";
+import shopFallbackRed from "../assets/img/shop_fallback_red.png";
+import shopFallbackBlue from "../assets/img/shop_fallback_blue.png";
+
 const LinkCardList = ({ searchText, sortBy }) => {
   const { isLoading, shopList, nextCursor, fetchProducts } = useShopList({
     keyword: searchText,
     orderBy: sortBy,
   });
-
   const loadMoreRef = useRef(null);
   const nextCursorRef = useRef(nextCursor);
+  const fallbackImages = [shopFallbackRed, shopFallbackBlue];
+  const getFallbackImage = () =>
+    fallbackImages[Math.floor(Math.random() * fallbackImages.length)];
 
   useEffect(() => {
     nextCursorRef.current = nextCursor;
@@ -49,13 +54,19 @@ const LinkCardList = ({ searchText, sortBy }) => {
 
   return (
     <ShopGrid>
-      {shopList &&  
+      {shopList &&
         shopList.map((item) => {
           return (
             <ShopCard key={item.id}>
               <ShopItem>
                 <ShopProfile>
-                  <ShopImg src={item.shop.imageUrl} />
+                  <ShopImg
+                    src={item.shop.imageUrl || getFallbackImage()}
+                    onError={(e) => {
+                      e.currentTarget.onerror = null; // 무한루프 방지
+                      e.currentTarget.src = getFallbackImage();
+                    }}
+                  />
                   <ShopText>
                     <ShopNameText>{item.name}</ShopNameText>
                     <ShopIDText>@{item.userId}</ShopIDText>
