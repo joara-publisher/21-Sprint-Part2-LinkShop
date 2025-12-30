@@ -94,8 +94,3 @@ export const Likes = styled.div`
 export const LikesText = styled.div`
   margin-left: 4px;
 `;
-
-export const CardLink = styled(Link)`
-  text-decoration: none;
-  color: inherit;
-`;
