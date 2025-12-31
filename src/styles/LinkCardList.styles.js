@@ -32,7 +32,6 @@ export const ShopItem = styled.div`
 
 export const ShopProfile = styled.div`
   display: flex;
-  width: 213px;
 `;
 
 export const ShopNameText = styled.div`
