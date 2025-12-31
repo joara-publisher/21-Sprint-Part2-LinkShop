@@ -1,12 +1,13 @@
 import DetailProductCard from "../components/DetailProductCard.jsx";
+import { ProductGrid } from "../styles/DetailListStyles.js";
 
 function DetailProductList({ products }) {
   return (
-    <div className="product-grid">
+    <ProductGrid>
       {products.map((product) => (
         <DetailProductCard key={product.id} product={product} />
       ))}
-    </div>
+    </ProductGrid>
   );
 }
 
