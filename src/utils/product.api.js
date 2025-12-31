@@ -14,6 +14,10 @@ export const getProductDetail = async (linkShopId) => {
   return await http.get(`/linkshops/${linkShopId}`);
 };
 
+export const sendLinkShopProductData = async (linkShopData) => {
+  return await http.post('/linkshops', linkShopData);
+}
+
 export const ShopLike = async (linkShopId) => {
   return await http.post(`/linkshops/${linkShopId}/like`);
 };

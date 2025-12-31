@@ -17,22 +17,37 @@ function CreateShop() {
       shopUrl: "",
     },
     products: [
-      {name: "", price: 0, imageUrl: ""}
+      {name: "", price: "", imageUrl: ""}
     ],
   });
 
   const productInputs = linkShopData.products;
-  const shopInputs = linkShopData.shop;
+  const shopInputs = {
+    ...linkShopData.shop,
+    userId: linkShopData.userId,
+    name: linkShopData.name,
+    password: linkShopData.password,
+  };
 
   const [isCreateCompleteModalOpen, setIsCreateCompleteModalOpen] =
     useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   
   const handleShopChange = (field, value) => {
-    setLinkShopData((prev) => ({
-      ...prev,
-      shop: { ...prev.shop, [field]: value },
-    }));
+    setLinkShopData((prev) => {
+      // shop 객체의 키 값인 경우
+      if (field === 'imageUrl' || field === 'urlName' || field === 'shopUrl') {
+        return {
+          ...prev,
+          shop: { ...prev.shop, [field]: value }
+        };
+      }
+      // 나머지 다른 값인 경우
+      return {
+        ...prev,
+        [field]: value
+      };
+    });
   };
 
   const handleProductChange = (index, field, value) => {
@@ -47,7 +62,7 @@ function CreateShop() {
   const handleAddProduct = () => {
     setLinkShopData((prev) => ({
       ...prev,
-      products: [...prev.products, { name: "", price: 0, imageUrl: ""}],
+      products: [...prev.products, { name: "", price: "", imageUrl: ""}],
     }));
   };
 
@@ -80,7 +95,10 @@ function CreateShop() {
           onChange={handleProductChange}
           onAdd={handleAddProduct}
         />
-        <InputShopInfo shopInputs={shopInputs} onChange={handleShopChange} />
+        <InputShopInfo 
+          shopInputs={shopInputs}
+          onChange={handleShopChange} 
+        />
         <Button 
           layout="full"
           type="submit"
