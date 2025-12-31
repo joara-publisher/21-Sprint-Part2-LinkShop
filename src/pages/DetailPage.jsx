@@ -17,34 +17,55 @@ import {
 } from "../styles/ModalStyles";
 function DetailPage() {
   const { linkShopId } = useParams();
-  const { detailData, isLiked, likes, toggleLike } = useDetailShop(linkShopId);
+  const { detailData, isLiked, likes, toggleLike, deleteShop } =
+    useDetailShop(linkShopId);
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
   const [password, setPassword] = useState("");
+
+  const [infoModal, setInfoModal] = useState({
+    isOpen: false,
+    message: "",
+    isSuccess: false,
+  });
 
   const closePasswordModal = () => {
     setIsPasswordModalOpen(false);
     setPassword("");
   };
+
+  const closeInfoModal = () => {
+    setInfoModal((prev) => ({ ...prev, isOpen: false }));
+    if (infoModal.isSuccess) {
+      window.location.href = "/";
+    }
+  };
+
   const handleShare = () => console.log("공유");
   const handleEdit = () => console.log("수정");
   const handleDelete = () => {
     setIsPasswordModalOpen(true);
   };
+
   const handleDeleteConfirm = async () => {
-    if (password !== "12341234") {
-      alert("비밀번호가 일치하지 않습니다.");
-      return;
-    }
+    const result = await deleteShop(password);
 
-    try {
-      console.log("삭제 API 호출", linkShopId);
-
-      closePasswordModal();
-    } catch (error) {
-      console.error("삭제 실패", error);
-      alert("삭제에 실패했습니다.");
+    if (result.success) {
+      setIsPasswordModalOpen(false);
+      setInfoModal({
+        isOpen: true,
+        message: "상점이 삭제되었습니다.",
+        isSuccess: true,
+      });
+    } else {
+      setInfoModal({
+        isOpen: true,
+        message: result.message,
+        isSuccess: false,
+      });
+      setPassword("");
     }
   };
+
   if (!detailData) return <StatusMessage status="로딩중" />;
 
   return (
@@ -84,6 +105,28 @@ function DetailPage() {
           </ConfirmButton>
           <ConfirmButton onClick={closePasswordModal}>취소하기</ConfirmButton>
         </ButtonWrapper>
+      </Modal>
+
+      <Modal isOpen={infoModal.isOpen} variant="modal">
+        <ModalDescription
+          style={{
+            marginTop: "-10px",
+            marginBottom: "32px",
+            fontSize: "18px",
+            lineHeight: "1.4",
+          }}
+        >
+          {infoModal.message}
+        </ModalDescription>
+        <ConfirmButton
+          onClick={closeInfoModal}
+          style={{
+            backgroundColor: "rgba(62, 69, 236, 1)",
+            width: "100%",
+          }}
+        >
+          확인
+        </ConfirmButton>
       </Modal>
     </>
   );
