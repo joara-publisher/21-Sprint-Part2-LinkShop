@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   getProductDetail,
   ShopLike,
   ShopLikeDelete,
 } from "../utils/product.api";
+import { shopDelete } from "../utils/auth.api";
 
 export function useDetailShop(linkShopId) {
   const [detailData, setDetailData] = useState();
   const [isLiked, setIsLiked] = useState(false);
   const [likes, setLikes] = useState(0);
+  const navigate = useNavigate();
 
   const likedKey = `liked-shop-${linkShopId}`;
 
@@ -54,11 +57,10 @@ export function useDetailShop(linkShopId) {
   const deleteShop = async (currentPassword) => {
     try {
       await shopDelete(linkShopId, currentPassword);
-      alert("상점이 삭제되었습니다.");
-      navigate("/");
+      return { success: true, message: "상점이 삭제되었습니다." };
     } catch (error) {
       console.error("삭제 실패:", error);
-      alert("삭제에 실패했습니다. 비밀번호를 확인해주세요.");
+      return { success: false, message: "비밀번호가 일치하지 않습니다." };
     }
   };
 
