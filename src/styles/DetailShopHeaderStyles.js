@@ -12,7 +12,6 @@ export const HeaderCard = styled.section`
   padding: 40px 20px;
   width: 100%;
   max-width: 1200px;
-  min-width: 466px;
   height: 266px;
   box-sizing: border-box;
   position: relative;
