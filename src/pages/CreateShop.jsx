@@ -6,6 +6,7 @@ import Modal from "../components/Modal";
 import { ConfirmTitle } from "../styles/ConfirmModalStyles";
 import { sendLinkShopProductData } from "../utils/product.api";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function CreateShop() {
   const [linkShopData, setLinkShopData] = useState({
@@ -17,9 +18,7 @@ function CreateShop() {
       urlName: "",
       shopUrl: "",
     },
-    products: [
-      {name: "", price: "", imageUrl: ""}
-    ],
+    products: [{ name: "", price: "", imageUrl: "" }],
   });
 
   const productInputs = linkShopData.products;
@@ -33,29 +32,31 @@ function CreateShop() {
   const [isCreateCompleteModalOpen, setIsCreateCompleteModalOpen] =
     useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  
+  const [createdShopId, setCreatedShopId] = useState(null);
+  const navigate = useNavigate();
+
   const handleShopChange = (field, value) => {
     setLinkShopData((prev) => {
       // shop 객체의 키 값인 경우
-      if (field === 'imageUrl' || field === 'urlName' || field === 'shopUrl') {
+      if (field === "imageUrl" || field === "shopUrl") {
         return {
           ...prev,
-          shop: { ...prev.shop, [field]: value }
+          shop: { ...prev.shop, [field]: value },
         };
       }
       // 나머지 다른 값인 경우
       return {
         ...prev,
-        [field]: value
+        [field]: value,
       };
     });
   };
 
   const handleProductChange = (index, field, value) => {
     setLinkShopData((prev) => {
-      const products = prev.products.map((p, i) => (
-        i === index ? { ...p, [field]: value} : p
-      ));
+      const products = prev.products.map((p, i) =>
+        i === index ? { ...p, [field]: value } : p
+      );
       return { ...prev, products };
     });
   };
@@ -63,12 +64,8 @@ function CreateShop() {
   const handleAddProduct = () => {
     setLinkShopData((prev) => ({
       ...prev,
-      products: [...prev.products, { name: "", price: "", imageUrl: ""}],
+      products: [...prev.products, { name: "", price: "", imageUrl: "" }],
     }));
-  };
-
-  const toggleCreateCompleteModal = () => {
-    setIsCreateCompleteModalOpen((prev) => !prev);
   };
 
   const handleSubmit = async (e) => {
@@ -114,7 +111,7 @@ function CreateShop() {
         password: linkShopData.password,
         shop: {
           imageUrl: shopImageUrl,
-          urlName: linkShopData.shop.urlName || "",
+          urlName: "",
           shopUrl: linkShopData.shop.shopUrl || "",
         },
         products: linkShopData.products.map((p, idx) => ({
@@ -123,12 +120,10 @@ function CreateShop() {
           imageUrl: productImageUrls[idx],
         })),
       };
-      // --- 로그로 최종 데이터 확인 ---
-      console.log("최종 전송할 Payload:", payload);
 
       // 4. 최종 데이터 전송 (이 부분은 기존 http 인스턴스를 사용해도 무방합니다)
       const response = await sendLinkShopProductData(payload);
-      setLinkShopData(response.data);
+      setCreatedShopId(response.data.id);
       setIsCreateCompleteModalOpen(true);
     } catch (error) {
       console.error("링크샵 생성 실패:", error);
@@ -146,22 +141,21 @@ function CreateShop() {
           onChange={handleProductChange}
           onAdd={handleAddProduct}
         />
-        <InputShopInfo 
-          shopInputs={shopInputs}
-          onChange={handleShopChange} 
-        />
-        <Button 
-          layout="full"
-          type="submit"
-          disabled={isSubmitting}
-        >
+        <InputShopInfo shopInputs={shopInputs} onChange={handleShopChange} />
+        <Button layout="full" type="submit" disabled={isSubmitting}>
           {isSubmitting ? "생성중..." : "생성하기"}
         </Button>
       </form>
 
       <Modal isOpen={isCreateCompleteModalOpen} variant="modal">
         <ConfirmTitle>등록이 완료되었습니다.</ConfirmTitle>
-        <Button onClick={toggleCreateCompleteModal} layout="full">
+        <Button
+          onClick={() => {
+            if (!createdShopId) return;
+            navigate(`/link/${createdShopId}`);
+          }}
+          layout="full"
+        >
           확인
         </Button>
       </Modal>
