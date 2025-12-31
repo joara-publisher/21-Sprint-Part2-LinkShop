@@ -8,7 +8,9 @@ function InputProduct({ products = [], onChange, onAdd }) {
 
   useEffect(() => {
     const nextUrls = products.map((p) => {
-      if (p && p.imageUrl) return URL.createObjectURL(p.imageUrl);
+      const fileOrUrl = p && p.imageUrl;
+      if (fileOrUrl instanceof File) return URL.createObjectURL(fileOrUrl);
+      if (typeof fileOrUrl === "string" && fileOrUrl) return fileOrUrl;
       return null;
     });
 
@@ -51,7 +53,13 @@ function InputProduct({ products = [], onChange, onAdd }) {
                 type="file"
                 placeholder="상품 이미지를 첨부해 주세요"
                 value={products.imageUrl || ""}
-                onChange={(e) => onChange(index, e)}
+                onChange={(e) =>
+                  onChange(
+                    index,
+                    "imageUrl",
+                    e.target.files && e.target.files[0] ? e.target.files[0] : null
+                  )
+                }
               />
 
             {previewUrls[index] && (
@@ -69,15 +77,15 @@ function InputProduct({ products = [], onChange, onAdd }) {
               type="text"
               placeholder="상품 이름을 입력해 주세요"
               value={products.name || ""}
-              onChange={(e) => onChange(index, e)}
+              onChange={(e) => onChange(index, "name", e.target.value)}
             />
             <FormField
               name="productPrice"
               label="상품 가격"
               type="text"
               placeholder="상품 가격을 입력해 주세요"
-              value={products.price || 0}
-              onChange={(e) => onChange(index, e)}
+              value={products.price || ""}
+              onChange={(e) => onChange(index, "price", e.target.value)}
             />
           </FormFieldCard>
         );
