@@ -22,6 +22,7 @@ import FullLikes from "../assets/img/full_likes.png";
 import EmptyLikes from "../assets/img/empty_likes.png";
 import shopFallbackRed from "../assets/img/shop_fallback_red.png";
 import shopFallbackBlue from "../assets/img/shop_fallback_blue.png";
+import { useNavigate } from "react-router-dom";
 
 const LinkCardList = ({ searchText, sortBy }) => {
   const { isLoading, shopList, nextCursor, fetchProducts } = useShopList({
