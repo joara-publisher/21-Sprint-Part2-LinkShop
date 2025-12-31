@@ -2,9 +2,9 @@ import FormField from "./FormField";
 import FormFieldCard from "./FormFieldCard";
 import useImagePreview from "../hooks/useImagePreview";
 
-function InputShopInfo({ shopInputs, onChange }) {
-  const { shopImage, shopName, shopUrl, userId, password } = shopInputs;
-  const previewUrl = useImagePreview({ shopImage });
+function InputShopInfo({ shopInputs = {}, onChange }) {
+  const { imageUrl, shopUrl, userId, urlName, password } = shopInputs;
+  const previewUrl = useImagePreview({ shopImage: imageUrl });
 
   return (
     <div>
@@ -16,8 +16,14 @@ function InputShopInfo({ shopInputs, onChange }) {
           label="쇼핑몰 대표 이미지" 
           type="file" 
           placeholder="쇼핑몰 이미지를 첨부해 주세요"
-          value={shopImage || ""}
-          onChange={onChange} 
+          value={imageUrl || ""}
+          onChange={(e) =>
+            onChange(
+              "imageUrl", e.target.files && e.target.files[0]
+              ? e.target.files[0]
+              : null
+            )
+          } 
         />
         {previewUrl && (
           <div>
@@ -29,8 +35,8 @@ function InputShopInfo({ shopInputs, onChange }) {
           label="이름" 
           type="text" 
           placeholder="쇼핑몰 이름을 입력해 주세요" 
-          value={shopName || ""}
-          onChange={onChange} 
+          value={urlName || ""}
+          onChange={(e) => onChange("urlName", e.target.value)} 
         />
         <FormField 
           name="shopUrl" 
@@ -38,7 +44,7 @@ function InputShopInfo({ shopInputs, onChange }) {
           type="url" 
           placeholder="Url을 입력해 주세요" 
           value={shopUrl || ""}
-          onChange={onChange} 
+          onChange={(e) => onChange("shopUrl", e.target.value)} 
         />
         <FormField 
           name="userId" 
@@ -46,7 +52,7 @@ function InputShopInfo({ shopInputs, onChange }) {
           type="text" 
           placeholder="유저 ID를 입력해 주세요" 
           value={userId || ""}
-          onChange={onChange} 
+          onChange={(e) => onChange("userId", e.target.value)} 
         />
         <FormField 
           name="password" 
@@ -54,7 +60,7 @@ function InputShopInfo({ shopInputs, onChange }) {
           type="password" 
           placeholder="비밀번호를 입력해 주세요"
           value={password || ""}
-          onChange={onChange} 
+          onChange={(e) => onChange("password", e.target.value)} 
         />
       </FormFieldCard>
     </div>

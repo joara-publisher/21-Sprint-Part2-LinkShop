@@ -6,63 +6,60 @@ import Modal from "../components/Modal";
 import { ConfirmTitle } from "../styles/ConfirmModalStyles";
 
 function EditShop() {
-  const [productInputs, setProductInputs] = useState([
-    { productImage: null, productName: "", productPrice: "" },
-  ]);
-
-  const [shopInputs, setShopInputs] = useState({
-    shopImage: null,
-    shopName: "",
-    shopUrl: "",
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [linkShopData, setLinkShopData] = useState({
+    currentPassword: "",
     userId: "",
-    password: "",
+    name: "",
+    shop: {
+      imageUrl: "",
+      urlName: "",
+      shopUrl: "",
+    },
+    products: [{ name: "", price: 0, imageUrl: "" }],
   });
 
   const [isUpdateCompleteModalOpen, setIsUpdateCompleteModalOpen] =
     useState(false);
 
-  // 상품 입력 변경 핸들러 (index 기반)
-  const handleProductChange = (index, field, value) => {
-    const updatedInputs = [...productInputs];
-    updatedInputs[index][field] = value;
-    setProductInputs(updatedInputs);
-  };
-
-  // 새 상품 카드 추가
-  const handleAddProduct = () => {
-    setProductInputs((prev) => [
+  const updateShopField = (field, value) => {
+    setLinkShopData((prev) => ({
       ...prev,
-      { productImage: null, productName: "", productPrice: "" },
-    ]);
+      shop: { ...prev.shop, [field]: value },
+    }));
   };
 
-  // 쇼핑몰 입력 변경 핸들러
-  const handleShopChange = (field, value) => {
-    setShopInputs((prev) => ({ ...prev, [field]: value }));
+  const updateProductField = (index, field, value) => {
+    setLinkShopData((prev) => {
+      const updatedProducts = [...prev.products];
+      updatedProducts[index] = {
+        ...updatedProducts[index],
+        [field]: value,
+      };
+      return { ...prev, products: updatedProducts };
+    });
   };
 
-  // 제출 핸들러
+  const handleAddProduct = () => {
+    setLinkShopData((prev) => ({
+      ...prev,
+      products: [...prev.products, { name: "", price: 0, imageUrl: "" }],
+    }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
 
-    // products를 배열 형태로 전송 (서버 기대 형식에 맞춰 변경 가능)
-    productInputs.forEach((p, i) => {
-      formData.append(`products[${i}][productName]`, p.productName || "");
-      formData.append(`products[${i}][productPrice]`, p.productPrice || "");
-      if (p.productImage)
-        formData.append(`products[${i}][productImage]`, p.productImage);
-    });
-
-    // 쇼핑몰 정보 추가
-    formData.append("shopName", shopInputs.shopName || "");
-    formData.append("shopUrl", shopInputs.shopUrl || "");
-    formData.append("userId", shopInputs.userId || "");
-    formData.append("password", shopInputs.password || "");
-    if (shopInputs.shopImage)
-      formData.append("shopImage", shopInputs.shopImage);
-
-    // 여기에 formData를 서버로 전송하는 로직 추가
+    // 중복 제출 차단
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+    try {
+      // 서버에 수정된 데이터 보내기
+    } catch (error) {
+      alert("수정에 실패했습니다. 다시 시도해주세요.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const toggleUpdateCompleteModal = () => {
@@ -73,13 +70,21 @@ function EditShop() {
     <>
       <form onSubmit={handleSubmit}>
         <InputProduct
-          products={productInputs}
-          onChange={handleProductChange}
+          products={linkShopData.products}
+          onChange={updateProductField}
           onAdd={handleAddProduct}
         />
-        <InputShopInfo shopInputs={shopInputs} onChange={handleShopChange} />
-        <Button type="submit" onClick={toggleUpdateCompleteModal}>
-          수정하기
+        <InputShopInfo
+          shopInputs={linkShopData.shop}
+          onChange={updateShopField}
+        />
+        <Button
+          type="submit"
+          disabled={isSubmitting}
+          layout="full"
+          onClick={toggleUpdateCompleteModal}
+        >
+          {isSubmitting ? "수정중..." : "수정하기"}
         </Button>
       </form>
       <Modal isOpen={isUpdateCompleteModalOpen} variant="modal">

@@ -1,11 +1,12 @@
 import styled from "styled-components";
 import { mediaQueries } from "./mediaQueries";
-
+import { Link } from "react-router-dom";
 export const ShopGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(2, auto);
   grid-template-rows: repeat(3, auto);
   gap: 24px;
+
   ${mediaQueries.tablet} {
     grid-template-columns: repeat(1, auto);
   }
