@@ -52,7 +52,7 @@ function InputProduct({ products = [], onChange, onAdd }) {
                 label="상품 대표 이미지"
                 type="file"
                 placeholder="상품 이미지를 첨부해 주세요"
-                value={product.imageUrl || ""}
+                value={products.imageUrl || ""}
                 onChange={(e) =>
                   onChange(
                     index,
@@ -76,7 +76,7 @@ function InputProduct({ products = [], onChange, onAdd }) {
               label="상품 이름"
               type="text"
               placeholder="상품 이름을 입력해 주세요"
-              value={product.name || ""}
+              value={products.name || ""}
               onChange={(e) => onChange(index, "name", e.target.value)}
             />
             <FormField
@@ -84,7 +84,7 @@ function InputProduct({ products = [], onChange, onAdd }) {
               label="상품 가격"
               type="text"
               placeholder="상품 가격을 입력해 주세요"
-              value={product.price || ""}
+              value={products.price || ""}
               onChange={(e) => onChange(index, "price", e.target.value)}
             />
           </FormFieldCard>

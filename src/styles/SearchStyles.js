@@ -1,8 +1,7 @@
 import styled from "styled-components";
-import { mediaQueries } from "./mediaQueries";
-
-export const Search = styled.input`
-  background-image: url("src/assets/img/icon_search.svg");
+import SearchIcon from "../assets/img/icon_search.png"
+export const Search = styled.input` 
+  background-image: url(${SearchIcon});
   background-repeat: no-repeat;
   background-size: 20px 20px;
   background-position: 20px center;
