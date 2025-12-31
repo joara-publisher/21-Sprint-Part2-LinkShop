@@ -23,6 +23,7 @@ import EmptyLikes from "../assets/img/empty_likes.png";
 import shopFallbackRed from "../assets/img/shop_fallback_red.png";
 import shopFallbackBlue from "../assets/img/shop_fallback_blue.png";
 
+
 const LinkCardList = ({ searchText, sortBy }) => {
   const { isLoading, shopList, nextCursor, fetchProducts } = useShopList({
     keyword: searchText,
