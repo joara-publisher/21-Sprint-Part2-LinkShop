@@ -6,6 +6,8 @@ import Modal from "../components/Modal";
 import { ConfirmTitle } from "../styles/ConfirmModalStyles";
 import { sendLinkShopProductData } from "../utils/product.api";
 import { PageFrame, TopMarginButton } from "../styles/CreateEditPageStyles";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function CreateShop() {
   const [linkShopData, setLinkShopData] = useState({
@@ -17,9 +19,7 @@ function CreateShop() {
       urlName: "",
       shopUrl: "",
     },
-    products: [
-      {name: "", price: "", imageUrl: ""}
-    ],
+    products: [{ name: "", price: "", imageUrl: "" }],
   });
 
   const productInputs = linkShopData.products;
@@ -33,29 +33,31 @@ function CreateShop() {
   const [isCreateCompleteModalOpen, setIsCreateCompleteModalOpen] =
     useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  
+  const [createdShopId, setCreatedShopId] = useState(null);
+  const navigate = useNavigate();
+
   const handleShopChange = (field, value) => {
     setLinkShopData((prev) => {
       // shop 객체의 키 값인 경우
-      if (field === 'imageUrl' || field === 'urlName' || field === 'shopUrl') {
+      if (field === "imageUrl" || field === "shopUrl") {
         return {
           ...prev,
-          shop: { ...prev.shop, [field]: value }
+          shop: { ...prev.shop, [field]: value },
         };
       }
       // 나머지 다른 값인 경우
       return {
         ...prev,
-        [field]: value
+        [field]: value,
       };
     });
   };
 
   const handleProductChange = (index, field, value) => {
     setLinkShopData((prev) => {
-      const products = prev.products.map((p, i) => (
-        i === index ? { ...p, [field]: value} : p
-      ));
+      const products = prev.products.map((p, i) =>
+        i === index ? { ...p, [field]: value } : p
+      );
       return { ...prev, products };
     });
   };
@@ -63,12 +65,8 @@ function CreateShop() {
   const handleAddProduct = () => {
     setLinkShopData((prev) => ({
       ...prev,
-      products: [...prev.products, { name: "", price: "", imageUrl: ""}],
+      products: [...prev.products, { name: "", price: "", imageUrl: "" }],
     }));
-  };
-
-  const toggleCreateCompleteModal = () => {
-    setIsCreateCompleteModalOpen((prev) => !prev);
   };
 
   const handleSubmit = async (e) => {
@@ -77,8 +75,56 @@ function CreateShop() {
     setIsSubmitting(true);
 
     try {
-      const response = await sendLinkShopProductData(linkShopData);
-      setLinkShopData(response.data);
+      // 1. 이미지 업로드 전용 헬퍼 함수
+      const uploadImage = async (fileOrUrl) => {
+        if (typeof fileOrUrl === "string") return fileOrUrl;
+
+        if (fileOrUrl instanceof File) {
+          const formData = new FormData();
+          formData.append("image", fileOrUrl);
+
+          // baseURL 문제를 피하기 위해 직접 전체 경로로 요청 보냄
+          const response = await axios.post(
+            "https://linkshop-api.vercel.app/images/upload",
+            formData,
+            {
+              headers: { "Content-Type": "multipart/form-data" },
+            }
+          );
+
+          // 서버 응답 구조가 { url: "..." } 인지 확인 필요
+          // 만약 응답 객체에 바로 주소가 온다면 response.data 를 사용하세요.
+          return response.data.url || response.data;
+        }
+        return "";
+      };
+
+      // 2. 모든 이미지를 병렬로 업로드하여 URL 획득
+      const [shopImageUrl, ...productImageUrls] = await Promise.all([
+        uploadImage(linkShopData.shop.imageUrl),
+        ...linkShopData.products.map((p) => uploadImage(p.imageUrl)),
+      ]);
+
+      // 3. 획득한 URL 문자열들로 최종 payload 구성
+      const payload = {
+        name: linkShopData.name,
+        userId: linkShopData.userId,
+        password: linkShopData.password,
+        shop: {
+          imageUrl: shopImageUrl,
+          urlName: "",
+          shopUrl: linkShopData.shop.shopUrl || "",
+        },
+        products: linkShopData.products.map((p, idx) => ({
+          name: p.name,
+          price: Number(p.price) || 0,
+          imageUrl: productImageUrls[idx],
+        })),
+      };
+
+      // 4. 최종 데이터 전송 (이 부분은 기존 http 인스턴스를 사용해도 무방합니다)
+      const response = await sendLinkShopProductData(payload);
+      setCreatedShopId(response.data.id);
       setIsCreateCompleteModalOpen(true);
     } catch (error) {
       console.error("링크샵 생성 실패:", error);
@@ -115,7 +161,13 @@ function CreateShop() {
 
       <Modal isOpen={isCreateCompleteModalOpen} variant="modal">
         <ConfirmTitle>등록이 완료되었습니다.</ConfirmTitle>
-        <Button onClick={toggleCreateCompleteModal} layout="full">
+        <Button
+          onClick={() => {
+            if (!createdShopId) return;
+            navigate(`/link/${createdShopId}`);
+          }}
+          layout="full"
+        >
           확인
         </Button>
       </Modal>

@@ -25,3 +25,5 @@ export const ShopLike = async (linkShopId) => {
 export const ShopLikeDelete = async (linkShopId) => {
   return await http.delete(`/linkshops/${linkShopId}/like`);
 };
+
+
