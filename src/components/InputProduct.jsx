@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import FormField from "./FormField";
 import FormFieldCard from "./FormFieldCard";
+import { AddButton, FormLabel, FormWrapper} from "../styles/CreateEditPageStyles";
+
 
 function InputProduct({ products = [], onChange, onAdd }) {
   const [previewUrls, setPreviewUrls] = useState([]);
@@ -33,19 +35,20 @@ function InputProduct({ products = [], onChange, onAdd }) {
 
   return (
     <div>
-      <h3>대표 상품</h3>
-
-      <div>
-        <button type="button" onClick={onAdd}>
-          추가
-        </button>
-      </div>
-
+        <FormLabel>
+          대표 상품
+        
+          <AddButton type="button" onClick={onAdd}>
+            추가
+          </AddButton>
+        
+        </FormLabel>
       {products.map((products, index) => {
         const fileInputId = `productImage-${index}`;
 
         return (
-          <FormFieldCard key={index}>
+          <FormWrapper>
+            <FormFieldCard key={index}>
               <FormField
                 id={fileInputId}
                 name="imageUrl"
@@ -62,32 +65,35 @@ function InputProduct({ products = [], onChange, onAdd }) {
                 }
               />
 
-            {previewUrls[index] && (
-              <div>
-                <img
-                  src={previewUrls[index]}
-                  alt={`상품 ${index + 1} 미리보기`}
-                />
-              </div>
-            )}
-
-            <FormField
-              name="name"
-              label="상품 이름"
-              type="text"
-              placeholder="상품 이름을 입력해 주세요"
-              value={products.name || ""}
-              onChange={(e) => onChange(index, "name", e.target.value)}
-            />
-            <FormField
-              name="price"
-              label="상품 가격"
-              type="text"
-              placeholder="상품 가격을 입력해 주세요"
-              value={products.price || ""}
-              onChange={(e) => onChange(index, "price", e.target.value)}
-            />
-          </FormFieldCard>
+              {previewUrls[index] && (
+                <div>
+                  <img
+                    src={previewUrls[index]}
+                    alt={`상품 ${index + 1} 미리보기`}
+                    width="50px"
+                    height="50px"
+                  />
+                </div>
+              )}
+              
+              <FormField
+                name="name"
+                label="상품 이름"
+                type="text"
+                placeholder="상품 이름을 입력해 주세요"
+                value={products.name || ""}
+                onChange={(e) => onChange(index, "name", e.target.value)}
+              />
+              <FormField
+                name="price"
+                label="상품 가격"
+                type="text"
+                placeholder="원화로 표기해 주세요"
+                value={products.price || ""}
+                onChange={(e) => onChange(index, "price", e.target.value)}
+              />
+            </FormFieldCard>
+          </FormWrapper>
         );
       })}
     </div>

@@ -4,6 +4,7 @@ import InputShopInfo from "../components/InputShopInfo";
 import Button from "../components/Button";
 import Modal from "../components/Modal";
 import { ConfirmTitle } from "../styles/ConfirmModalStyles";
+import { PageFrame, TopMarginButton } from "../styles/CreateEditPageStyles";
 
 function EditShop() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -68,25 +69,29 @@ function EditShop() {
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
-        <InputProduct
-          products={linkShopData.products}
-          onChange={updateProductField}
-          onAdd={handleAddProduct}
-        />
-        <InputShopInfo
-          shopInputs={linkShopData.shop}
-          onChange={updateShopField}
-        />
-        <Button
-          type="submit"
-          disabled={isSubmitting}
-          layout="full"
-          onClick={toggleUpdateCompleteModal}
-        >
-          {isSubmitting ? "수정중..." : "수정하기"}
-        </Button>
-      </form>
+      <PageFrame>
+        <form onSubmit={handleSubmit}>
+          <InputProduct
+            products={linkShopData.products}
+            onChange={updateProductField}
+            onAdd={handleAddProduct}
+          />
+          <InputShopInfo
+            shopInputs={linkShopData.shop}
+            onChange={updateShopField}
+          />
+          <TopMarginButton>
+            <Button
+              type="submit"
+              disabled={isSubmitting}
+              layout="full"
+              onClick={toggleUpdateCompleteModal}
+            >
+              {isSubmitting ? "수정중..." : "수정하기"}
+            </Button>
+          </TopMarginButton>
+        </form>
+      </PageFrame>
       <Modal isOpen={isUpdateCompleteModalOpen} variant="modal">
         <ConfirmTitle>수정이 완료되었습니다.</ConfirmTitle>
         <Button onClick={toggleUpdateCompleteModal} layout="full">

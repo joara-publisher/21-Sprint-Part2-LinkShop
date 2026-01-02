@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { FormFieldBlock, FormFieldLabel, StyledInput } from "../styles/FormFieldStyles";
 
 function FormField({ id, name, label, type, placeholder, value, onChange }) {
   const fileInputRef = useRef(null);
@@ -28,11 +29,12 @@ function FormField({ id, name, label, type, placeholder, value, onChange }) {
 
   return (
     <div>
-      <label htmlFor={name}>{label}</label>
       
+        <FormFieldLabel htmlFor={name}>{label}</FormFieldLabel>
+
       {type === "file" ? (
-        <>
-          <input
+        <FormFieldBlock>
+          <StyledInput
             id={inputId}
             name={name}
             type="file"
@@ -44,16 +46,18 @@ function FormField({ id, name, label, type, placeholder, value, onChange }) {
             파일 첨부
           </button>
           {fileName && <span>{fileName}</span>}
-        </>
+        </FormFieldBlock>
       ) : (
-        <input
-          id={inputId}
-          name={name}
-          type={type}
-          placeholder={placeholder}
-          value={value}
-          onChange={onChange}
-        />
+        <FormFieldBlock>
+          <StyledInput
+            id={inputId}
+            name={name}
+            type={type}
+            placeholder={placeholder}
+            value={value}
+            onChange={onChange}
+          />
+        </FormFieldBlock>
       )}
     </div>
   );
