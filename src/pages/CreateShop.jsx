@@ -5,6 +5,7 @@ import Button from "../components/Button";
 import Modal from "../components/Modal";
 import { ConfirmTitle } from "../styles/ConfirmModalStyles";
 import { sendLinkShopProductData } from "../utils/product.api";
+import { PageFrame, TopMarginButton } from "../styles/CreateEditPageStyles";
 
 function CreateShop() {
   const [linkShopData, setLinkShopData] = useState({
@@ -89,24 +90,28 @@ function CreateShop() {
 
   return (
     <>
-      <form onSubmit={handleSubmit} aria-busy={isSubmitting}>
-        <InputProduct
-          products={productInputs}
-          onChange={handleProductChange}
-          onAdd={handleAddProduct}
-        />
-        <InputShopInfo 
-          shopInputs={shopInputs}
-          onChange={handleShopChange} 
-        />
-        <Button 
-          layout="full"
-          type="submit"
-          disabled={isSubmitting}
-        >
-          {isSubmitting ? "생성중..." : "생성하기"}
-        </Button>
-      </form>
+      <PageFrame>
+        <form onSubmit={handleSubmit} aria-busy={isSubmitting}>
+          <InputProduct
+            products={productInputs}
+            onChange={handleProductChange}
+            onAdd={handleAddProduct}
+          />
+          <InputShopInfo 
+            shopInputs={shopInputs}
+            onChange={handleShopChange} 
+          />
+          <TopMarginButton>
+            <Button 
+              layout="full"
+              type="submit"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "생성중..." : "생성하기"}
+            </Button>
+          </TopMarginButton>
+        </form>
+      </PageFrame>
 
       <Modal isOpen={isCreateCompleteModalOpen} variant="modal">
         <ConfirmTitle>등록이 완료되었습니다.</ConfirmTitle>
