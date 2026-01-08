@@ -2,13 +2,11 @@ import { useEffect, useState } from "react";
 import { getProducts } from "../utils/product.api";
 
 const useShopList = ({ keyword, orderBy } = {}) => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [shopList, setShopList] = useState([]);
   const [nextCursor, setNextCursor] = useState(0);
 
   const fetchProducts = async (cursor) => {
-    setIsLoading(true);
-
     try {
       const res = await getProducts({ keyword, orderBy, cursor });
 
@@ -33,7 +31,7 @@ const useShopList = ({ keyword, orderBy } = {}) => {
   };
 
   const resetAndFetch = async () => {
-    setShopList([]);
+    setIsLoading(true);
     setNextCursor(0);
     await fetchProducts(0);
   };

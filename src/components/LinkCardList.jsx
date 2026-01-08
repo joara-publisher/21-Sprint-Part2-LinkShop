@@ -23,7 +23,6 @@ import EmptyLikes from "../assets/img/empty_likes.png";
 import shopFallbackRed from "../assets/img/shop_fallback_red.png";
 import shopFallbackBlue from "../assets/img/shop_fallback_blue.png";
 
-
 const LinkCardList = ({ searchText, sortBy }) => {
   const { isLoading, shopList, nextCursor, fetchProducts } = useShopList({
     keyword: searchText,
@@ -46,14 +45,14 @@ const LinkCardList = ({ searchText, sortBy }) => {
     }
   });
 
-  if (isLoading && shopList.length === 0) {
+  if (isLoading) {
     return <StatusMessage status="로딩중" />;
   }
 
-  const hasKeyword = searchText.trim().length > 0;
-  if (hasKeyword && shopList.length == 0) {
+  if (!isLoading && shopList.length == 0) {
     return <StatusMessage status="검색결과없음" />;
   }
+
   return (
     <ShopGrid>
       {shopList &&
